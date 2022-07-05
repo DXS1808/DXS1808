@@ -1,10 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:todo/view/task_screen/todo_item.dart';
 
-import '../../model/todo_list.dart';
+import '../../model/user_profile.dart';
 
 class TodoScreenList extends StatelessWidget {
-  List<TodoList> todoList;
+  List<UserProfile> todoList;
   TodoScreenList(this.todoList, {Key? key}) : super(key: key);
 
   @override

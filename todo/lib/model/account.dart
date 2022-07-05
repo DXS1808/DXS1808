@@ -4,13 +4,13 @@ import 'package:hive/hive.dart';
 part 'user.g.dart';
 
 @HiveType(typeId: 0)
-class User extends HiveObject {
+class Users extends HiveObject {
   @HiveField(0)
   late String email;
   @HiveField(1)
   late String password;
 
-  User(this.email,this.password);
+  Users(this.email,this.password);
 
   // factory User.fromJson(Map<String,dynamic> json) => _$UserFromJson(json);
   //
