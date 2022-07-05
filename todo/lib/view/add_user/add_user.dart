@@ -1,16 +1,12 @@
 import 'dart:io';
-
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:todo/allert_dropdown/allert_dopdown.dart';
-import 'package:todo/bloc/user_cubit.dart';
 import 'package:todo/component/pick_image/pick_image.dart';
 import 'package:todo/component/rouned_button.dart';
 import '../../component/input_text_wrap.dart';
 import '../../constants/constants.dart';
 import '../../local_storage/boxes.dart';
-import '../../model/todo_list.dart';
+import '../../model/user_profile.dart';
 
 class AddUser extends StatefulWidget {
   @override
@@ -26,13 +22,15 @@ class _AddUserState extends State<AddUser> {
 
   TextEditingController job = TextEditingController();
 
-  final ImagePicker _picker = ImagePicker();
+  TextEditingController age = TextEditingController();
+  TextEditingController description = TextEditingController();
 
-  String pathImage = "";
+  final GlobalKey<FormState> _key = GlobalKey<FormState>();
+
+  String? imagePath;
 
   @override
   Widget build(BuildContext context) {
-    Size size = MediaQuery.of(context).size;
     return GestureDetector(
       onTap: () {
         FocusScope.of(context).unfocus();
@@ -47,39 +45,85 @@ class _AddUserState extends State<AddUser> {
           ),
           backgroundColor: Constants.backgroundColor,
         ),
-        body: Container(
-          padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 10.0),
-          child: Column(
-            children: [
-              pathImage == ""
-                  ? imagePiker(context)
-                  : Container(
-                      height: 80,
-                      width: 80,
-                      child: ClipRRect(
-                        child: Image.file(
-                          File(pathImage),
-                          fit: BoxFit.contain,
+        body: Form(
+          key: _key,
+          child: SingleChildScrollView(
+            child: Container(
+              padding:
+                  const EdgeInsets.symmetric(horizontal: 10.0, vertical: 10.0),
+              child: Column(
+                children: [
+                  imagePath == null
+                      ? imagePicker(context)
+                      : Stack(
+                          children: [
+                            ClipOval(
+                                child: Image.file(
+                              File(
+                                imagePath!,
+                              ),
+                              height: 100,
+                              width: 100,
+                              fit: BoxFit.cover,
+                              errorBuilder: (context, object, stackTrace) {
+                                return const CircleAvatar(
+                                  maxRadius: 50,
+                                  child: Icon(
+                                    Icons.error,
+                                    size: 20,
+                                    color: Colors.red,
+                                  ),
+                                );
+                              },
+                            )),
+                            Positioned(
+                                bottom: 10,
+                                right: 18,
+                                child: GestureDetector(
+                                  onTap: () {
+                                    PickImage.imagePicker(context)
+                                        .then((value) {
+                                      setState(() {
+                                        imagePath = value!.path;
+                                      });
+                                    });
+                                  },
+                                  child: const Icon(
+                                    Icons.camera_alt_outlined,
+                                    color: Constants.backgroundColor,
+                                  ),
+                                ))
+                          ],
                         ),
-                      ),
-                    ),
-              const SizedBox(height: 20.0,),
-              inputName(),
-              const SizedBox(
-                height: 10.0,
+                  const SizedBox(
+                    height: 20.0,
+                  ),
+                  inputName(),
+                  const SizedBox(
+                    height: 10.0,
+                  ),
+                  inputAddress(),
+                  const SizedBox(
+                    height: 10.0,
+                  ),
+                  inputPhone(),
+                  const SizedBox(
+                    height: 10.0,
+                  ),
+                  inputJob(),
+                  const SizedBox(
+                    height: 10.0,
+                  ),
+                  inputAge(),
+                  const SizedBox(
+                    height: 10.0,
+                  ),
+                  inputDescription(),
+                  const SizedBox(height: 30.0),
+                  buttonAddUser()
+                ],
               ),
-              inputAddress(),
-              const SizedBox(
-                height: 10.0,
-              ),
-              inputPhone(),
-              const SizedBox(
-                height: 10.0,
-              ),
-              inputJob(),
-              const SizedBox(height: 30.0),
-              buttonAddUser()
-            ],
+            ),
           ),
         ),
       )),
@@ -103,6 +147,7 @@ class _AddUserState extends State<AddUser> {
   }
 
   inputPhone() {
+    RegExp regExp = RegExp(r'^(84|0[3|5|7|8|9])+([0-9]{8})\b');
     return InputTextWrap(
       label: "Phone...",
       controller: phone,
@@ -113,6 +158,9 @@ class _AddUserState extends State<AddUser> {
       ),
       obscureText: false,
       validator: (str) {
+        if (regExp.hasMatch(str!) == false) {
+          return "Enter valid phone";
+        }
         return null;
       },
     );
@@ -145,32 +193,63 @@ class _AddUserState extends State<AddUser> {
       ),
       obscureText: false,
       validator: (str) {
+        if (str!.isEmpty) {
+          return "Job is required";
+        }
+        return null;
+      },
+    );
+  }
+  inputAge() {
+    return InputTextWrap(
+      label: "Age...",
+      controller: age,
+      icon: const Icon(
+        Icons.edit_outlined,
+        size: 20,
+        color: Constants.backgroundColor,
+      ),
+      obscureText: false,
+      validator: (str) {
+        if (str!.isEmpty) {
+          return "Age is required";
+        }
+        return null;
+      },
+    );
+  }
+  inputDescription() {
+    return InputTextWrap(
+      label: "Description...",
+      controller: description,
+      icon: const Icon(
+        Icons.edit_outlined,
+        size: 20,
+        color: Constants.backgroundColor,
+      ),
+      obscureText: false,
+      validator: (str) {
+        if (str!.isEmpty) {
+          return "Description is required";
+        }
         return null;
       },
     );
   }
 
-  imagePiker(BuildContext context) {
+  imagePicker(BuildContext context) {
     return GestureDetector(
-      onTap: (){
-        _picker
-            .pickImage(
-          source: ImageSource.gallery,
-          maxHeight: Constants.MAX_HEIGHT,
-          maxWidth: Constants.MAX_WIDTH,
-          imageQuality: Constants.IMAGE_QUALITY,
-        )
-            .then((value) {
+      onTap: () {
+        PickImage.imagePicker(context).then((value) {
           setState(() {
-            pathImage == value?.path ;
+            imagePath = value!.path;
+            // print(value);
           });
-          print("$pathImage");
-        }).onError((error, stackTrace) => AllertDropdown.error("Picker failed"));
+        });
       },
-      child: Container(
-        height: 80,
-        width: 80,
-        decoration: BoxDecoration(color: Colors.grey.withOpacity(0.1)),
+      child: CircleAvatar(
+        maxRadius: 50,
+        backgroundColor: Colors.grey.withOpacity(0.1),
         child: const Icon(
           Icons.camera_alt_outlined,
           color: Constants.backgroundColor,
@@ -180,35 +259,46 @@ class _AddUserState extends State<AddUser> {
   }
 
   buttonAddUser() {
-    return RounedButton(onPress: () {}, text: "Add User");
+    // String? url = imageFile != null ? imageFile!.path : null;
+    return RounedButton(
+        onPress: () {
+          if (_key.currentState!.validate()) {
+            addTodo(name.text, phone.text, address.text, imagePath!, job.text,age.text,description.text)
+                .then((value) {
+              AllertDropdown.success("Add user success");
+              clear();
+            });
+          }
+        },
+        text: "Add User");
   }
 
   Future addTodo(String name, String phone, String address, String imgUrl,
-      String job) async {
-    final todo = TodoList(name, phone, address, imgUrl, job)
+      String job, String age,String description) async {
+    final userProfile = UserProfile(name, phone, address, imgUrl, job, age,description)
       ..name = name
       ..phone = phone
       ..address = address
       ..imgUrl = imgUrl
-      ..job = job;
+      ..job = job
+      ..age = age
+      ..description = description;
 
     final box = Boxes.getTodos();
-    await box.add(todo);
+    await box.add(userProfile);
     // box.put("account",user);
     // box.put("password", password);
   }
 
-  deleteTodo(TodoList todoList) {
-    todoList.delete();
-  }
-
-  editTodo(TodoList todoList, String name, String phone, String address,
-      String imgUrl, String job) {
-    todoList.name = name;
-    todoList.phone = phone;
-    todoList.address = address;
-    todoList.imgUrl = imgUrl;
-    todoList.job = job;
-    todoList.save();
+  clear() {
+    name.clear();
+    address.clear();
+    phone.clear();
+    job.clear();
+    age.clear();
+    description.clear();
+    setState(() {
+      imagePath = null;
+    });
   }
 }

@@ -1,15 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:hive/hive.dart';
 import 'package:hive_flutter/adapters.dart';
 import 'package:todo/allert_dropdown/allert_dopdown.dart';
-import 'package:todo/bloc/user_cubit.dart';
 import 'package:todo/component/input_text_wrap.dart';
 import 'package:todo/constants/constants.dart';
-import '../../component/snackbar/snackbar.dart';
 import '../../local_storage/boxes.dart';
 import '../../component/rouned_button.dart';
-import '../../model/user.dart';
+import '../../model/account.dart';
 
 class SignUpScreen extends StatefulWidget {
   @override
@@ -17,7 +13,7 @@ class SignUpScreen extends StatefulWidget {
 }
 
 class _SignUpScreenState extends State<SignUpScreen> {
-  List<User> users = [];
+  List<Account> users = [];
   TextEditingController email = TextEditingController();
 
   TextEditingController password = TextEditingController();
@@ -46,7 +42,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
         automaticallyImplyLeading: true,
         backgroundColor: Constants.backgroundColor,
       ),
-      body: ValueListenableBuilder<Box<User>>(
+      body: ValueListenableBuilder<Box<Account>>(
         valueListenable: Boxes.getUsers().listenable(),
         builder:(context,box,_){
           return Form(
@@ -100,7 +96,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
     );
   }
 
-  inputUserName(List<User> users) {
+  inputUserName(List<Account> users) {
     return InputTextWrap(
         label: "Email...",
         controller: email,
@@ -128,6 +124,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
   }
 
   inputPassword() {
+    RegExp regex =
+    RegExp(r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{8,}$');
     return InputTextWrap(
         label: "Password...",
         controller: password,
@@ -153,6 +151,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
         validator: (str) {
           if (str!.isEmpty) {
             return "Password is required";
+          }else if(!regex.hasMatch(str)){
+            return "Enter valid password";
           }
           return null;
         });
@@ -189,6 +189,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
           } else if (str.isEmpty) {
             return "Confirm Password is required";
           }
+          return null;
         });
   }
 
@@ -214,7 +215,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
   }
 
   Future addUser(String email, String password) async {
-    final user = User(email, password)
+    final user = Account(email, password)
       ..email = email
       ..password = password;
 

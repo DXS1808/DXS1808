@@ -1,9 +1,9 @@
 
 import 'package:hive/hive.dart';
 
-part 'todo_list.g.dart';
+part 'user_profile.g.dart';
 @HiveType(typeId: 1)
-class TodoList extends HiveObject {
+class UserProfile extends HiveObject {
   @HiveField(0)
   String name;
   @HiveField(1)
@@ -14,8 +14,12 @@ class TodoList extends HiveObject {
   String imgUrl;
   @HiveField(4)
   String job;
+  @HiveField(5)
+  String age;
+  @HiveField(6)
+  String description;
 
-  TodoList(this.name,this.phone,this.address,this.imgUrl,this.job);
+  UserProfile(this.name,this.phone,this.address,this.imgUrl,this.job,this.age,this.description);
 
   // factory TodoList.fromJson(Map<String,dynamic> json) => _$TodoListFromJson(json);
   //

@@ -23,6 +23,7 @@ class UserProfileAdapter extends TypeAdapter<UserProfile> {
       fields[3] as String,
       fields[4] as String,
       fields[5] as String,
+      fields[6] as String,
     );
   }
 
@@ -41,7 +42,9 @@ class UserProfileAdapter extends TypeAdapter<UserProfile> {
       ..writeByte(4)
       ..write(obj.job)
       ..writeByte(5)
-      ..write(obj.age);
+      ..write(obj.age)
+      ..writeByte(6)
+      ..write(obj.description);
   }
 
   @override

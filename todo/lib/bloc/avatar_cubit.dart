@@ -1,11 +1,11 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../model/user.dart';
+import '../model/account.dart';
 
-class BlocCheck extends Cubit<bool> {
-  BlocCheck() : super(false);
+class BlocAvatar extends Cubit<String> {
+  BlocAvatar() : super("");
 
-  //  check() {
-  //   state == true;
-  // }
+  increaseUrl(String imgUrl) {
+    emit(imgUrl);
+  }
 }

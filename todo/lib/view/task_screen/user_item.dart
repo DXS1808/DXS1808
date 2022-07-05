@@ -5,19 +5,19 @@ import 'package:flutter/material.dart';
 import 'package:todo/constants/constants.dart';
 import 'package:todo/model/user_profile.dart';
 import 'package:todo/view/add_user/user_avatar/avatar.dart';
-import 'package:todo/view/task_screen/todo_detail.dart';
+import 'package:todo/view/task_screen/user_detail.dart';
 import 'package:todo/view/add_user/update_user.dart';
 
-class TodoItem extends StatefulWidget {
+class UserItem extends StatefulWidget {
   UserProfile userProfile;
 
-  TodoItem(this.userProfile);
+  UserItem(this.userProfile);
 
   @override
-  _TodoItemState createState() => _TodoItemState();
+  _UserItemState createState() => _UserItemState();
 }
 
-class _TodoItemState extends State<TodoItem> {
+class _UserItemState extends State<UserItem> {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -25,6 +25,7 @@ class _TodoItemState extends State<TodoItem> {
           Navigator.push(context, _createRouteDetail());
       },
       child: Card(
+        color: Constants.backgroundColor.withOpacity(0.5),
         elevation: 5.0,
         shape: const RoundedRectangleBorder(
             borderRadius: BorderRadius.all(Radius.circular(10.0))),
@@ -143,7 +144,7 @@ class _TodoItemState extends State<TodoItem> {
   Route _createRouteDetail() {
     return PageRouteBuilder(
       pageBuilder: (context, animation, secondaryAnimation) =>
-         TodoDetail(widget.userProfile),
+         UserDetail(widget.userProfile),
       transitionsBuilder: (context, animation, secondaryAnimation, child) {
         const begin = Offset(0.0, 1.0);
         const end = Offset.zero;

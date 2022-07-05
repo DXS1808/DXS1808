@@ -1,11 +1,24 @@
 import 'package:flutter/cupertino.dart';
 
-class PageRouter extends PageRouteBuilder {
+class PageRouter extends Route {
   Widget page;
-  PageRouter(this.page) : super();
+  PageRouter(this.page);
 
-  @override
-  Widget build(BuildContext context) {
-    return Container();
+  PageRouteBuilder build(BuildContext context) {
+    return PageRouteBuilder(
+      pageBuilder: (context, animation, secondaryAnimation) =>
+          page,
+      transitionsBuilder: (context, animation, secondaryAnimation, child) {
+        const begin = Offset(0.0, 1.0);
+        const end = Offset.zero;
+        const curve = Curves.ease;
+        final tween =
+        Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
+        return SlideTransition(
+          position: animation.drive(tween),
+          child: child,
+        );
+      },
+    );
   }
 }

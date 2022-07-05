@@ -1,13 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hive_flutter/adapters.dart';
 import 'package:todo/allert_dropdown/allert_dopdown.dart';
-import 'package:todo/bloc/user_cubit.dart';
 import 'package:todo/component/input_text_wrap.dart';
 import '../../local_storage/boxes.dart';
 import '../../component/rouned_button.dart';
 import '../../constants/constants.dart';
-import '../../model/user.dart';
+import '../../model/account.dart';
 
 class LoginScreen extends StatefulWidget {
   @override
@@ -20,7 +18,6 @@ class _LoginScreenState extends State<LoginScreen> {
   TextEditingController password = TextEditingController();
   final GlobalKey<FormState> _key = GlobalKey<FormState>();
   bool _passwordVisible = true;
-  var input = RegExp('[a-z0-9]+@[a-z]+\.[a-z]{2,3}');
   static final navigatorKey = GlobalKey<NavigatorState>();
   // @override
   // void initState() async {
@@ -37,7 +34,7 @@ class _LoginScreenState extends State<LoginScreen> {
         FocusScope.of(context).unfocus();
       },
       child: Material(
-        child: ValueListenableBuilder<Box<User>>(
+        child: ValueListenableBuilder<Box<Account>>(
           valueListenable: Boxes.getUsers().listenable(),
           builder: (context, box, _) {
             return Form(
@@ -119,7 +116,8 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 
-  inputUserName(List<User> users) {
+  inputUserName(List<Account> users) {
+    var input = RegExp('[a-z0-9]+@[a-z]+\.[a-z]{2,3}');
     return InputTextWrap(
         label: "Email...",
         controller: email,
@@ -147,7 +145,7 @@ class _LoginScreenState extends State<LoginScreen> {
         });
   }
 
-  inputPassword(List<User> users) {
+  inputPassword(List<Account> users) {
     return InputTextWrap(
         label: "Password...",
         controller: password,
@@ -192,7 +190,7 @@ class _LoginScreenState extends State<LoginScreen> {
         });
   }
 
-  loginButton(List<User> users, BuildContext context) {
+  loginButton(List<Account> users, BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return RounedButton(
       onPress: () {
@@ -202,7 +200,6 @@ class _LoginScreenState extends State<LoginScreen> {
                 users[i].password == password.value.text) {
               AllertDropdown.success("Login Success");
               Navigator.pushNamed(context, "/homeScreen");
-
             }
             }
           }

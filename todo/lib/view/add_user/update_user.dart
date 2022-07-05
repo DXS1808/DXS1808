@@ -1,15 +1,19 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:todo/allert_dropdown/allert_dopdown.dart';
+import 'package:todo/bloc/avatar_cubit.dart';
 import 'package:todo/component/pick_image/pick_image.dart';
 import 'package:todo/component/rouned_button.dart';
+import 'package:todo/view/add_user/user_avatar/avatar.dart';
 import '../../component/input_text_wrap.dart';
 import '../../constants/constants.dart';
-import '../../model/todo_list.dart';
+import '../../model/user_profile.dart';
 
 class TodoUpdate extends StatefulWidget {
-  TodoList todoList;
+  UserProfile userProfile;
 
-  TodoUpdate(this.todoList);
+  TodoUpdate(this.userProfile);
 
   @override
   State<TodoUpdate> createState() => _TodoUpdateState();
@@ -23,89 +27,108 @@ class _TodoUpdateState extends State<TodoUpdate> {
   TextEditingController address = TextEditingController();
 
   TextEditingController job = TextEditingController();
+  TextEditingController age = TextEditingController();
+  TextEditingController description = TextEditingController();
+
 
   final GlobalKey<FormState> _key = GlobalKey<FormState>();
 
-
-  String? imageFile;
+  // String? imageFile;
 
   @override
   void initState() {
-    name.text = widget.todoList.name;
-    phone.text = widget.todoList.phone;
-    address.text = widget.todoList.address;
-    job.text = widget.todoList.job;
+    name.text = widget.userProfile.name;
+    phone.text = widget.userProfile.phone;
+    address.text = widget.userProfile.address;
+    job.text = widget.userProfile.job;
+    age.text = widget.userProfile.age;
+    description.text = widget.userProfile.description;
+    // imageFile = widget.todoList.imgUrl;
     // TODO: implement initState
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
+    BlocAvatar bloc = context.read();
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Constants.backgroundColor,
-        title: const Text(
-          "Update User",
-          style: TextStyle(fontFamily: Constants.fontFamily),
-        ),
-      ),
-      body: Form(
-        key: _key,
-        child: Container(
-          padding:const EdgeInsets.symmetric(horizontal: 10.0),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Stack(
-                children: [
-                  ClipOval(
-                    child: Image.file(
-                      File(widget.todoList.imgUrl),
-                      height: 100,
-                      width: 100,
-                      fit: BoxFit.cover,
-                    ),
-                  ),
-                  Positioned(
-                      child: IconButton(
-                        icon: const Icon(Icons.camera_alt_outlined,
-                        size: 20,
-                        color: Constants.backgroundColor,),
-                        onPressed: (){
-                          PickImage.imagePicker(context).then((value){
-                            setState(() {
-                              imageFile = value!.path;
-                            });
-                          });
-                        },
-                      )
-                  ),
-                ],
-              ),
-              const SizedBox(
-                height: 20.0,
-              ),
-              inputName(),
-              const SizedBox(
-                height: 10.0,
-              ),
-              inputAddress(),
-              const SizedBox(
-                height: 10.0,
-              ),
-              inputPhone(),
-              const SizedBox(
-                height: 10.0,
-              ),
-              inputJob(),
-              const SizedBox(height: 30.0),
-              buttonUpdate(),
-            ],
+        appBar: AppBar(
+          backgroundColor: Constants.backgroundColor,
+          title: const Text(
+            "Update User",
+            style: TextStyle(fontFamily: Constants.fontFamily),
           ),
         ),
-      )
-    );
+        body: Form(
+          key: _key,
+          child: SingleChildScrollView(
+            child:Container(
+              padding: const EdgeInsets.symmetric(horizontal: 10.0,vertical: 10.0),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Stack(
+                    children: [
+                      ClipOval(
+                          child: Image.file(
+                            File(
+                              widget.userProfile.imgUrl,
+                            ),
+                            height: 100,
+                            width: 100,
+                            fit: BoxFit.cover,
+                          )),
+                      Positioned(
+                          bottom: 0,
+                          right: 0,
+                          child: IconButton(
+                            icon: const Icon(
+                              Icons.camera_alt_outlined,
+                              size: 20,
+                              color: Constants.backgroundColor,
+                            ),
+                            onPressed: () {
+                              PickImage.imagePicker(context).then((value) {
+                                setState(() {
+                                  widget.userProfile.imgUrl = value!.path;
+                                });
+                              });
+                            },
+                          )),
+                    ],
+                  ),
+                  const SizedBox(
+                    height: 20.0,
+                  ),
+                  inputName(),
+                  const SizedBox(
+                    height: 10.0,
+                  ),
+                  inputAddress(),
+                  const SizedBox(
+                    height: 10.0,
+                  ),
+                  inputPhone(),
+                  const SizedBox(
+                    height: 10.0,
+                  ),
+                  inputJob(),
+                  const SizedBox(
+                    height: 10.0,
+                  ),
+                  inputAge(),
+                  const SizedBox(
+                    height: 10.0,
+                  ),
+                  inputDescription(),
+                  const SizedBox(height: 30.0),
+                  buttonUpdate(context),
+                ],
+              ),
+            ),
+          ),
+        ));
   }
 
   inputName() {
@@ -159,6 +182,42 @@ class _TodoUpdateState extends State<TodoUpdate> {
       },
     );
   }
+  inputAge() {
+    return InputTextWrap(
+      label: "Age...",
+      controller: age,
+      icon: const Icon(
+        Icons.edit_outlined,
+        size: 20,
+        color: Constants.backgroundColor,
+      ),
+      obscureText: false,
+      validator: (str) {
+        if (str!.isEmpty) {
+          return "Age is required";
+        }
+        return null;
+      },
+    );
+  }
+  inputDescription() {
+    return InputTextWrap(
+      label: "Description...",
+      controller: description,
+      icon: const Icon(
+        Icons.edit_outlined,
+        size: 20,
+        color: Constants.backgroundColor,
+      ),
+      obscureText: false,
+      validator: (str) {
+        if (str!.isEmpty) {
+          return "Age is required";
+        }
+        return null;
+      },
+    );
+  }
 
   inputJob() {
     return InputTextWrap(
@@ -179,17 +238,29 @@ class _TodoUpdateState extends State<TodoUpdate> {
     );
   }
 
-  buttonUpdate() {
-    return RounedButton(onPress: () {}, text: "Update");
+  buttonUpdate(BuildContext context) {
+    BlocAvatar blocAvatar = context.read();
+    return RounedButton(
+        onPress: () {
+          editTodo(widget.userProfile, name.text, phone.text, address.text,
+                  widget.userProfile.imgUrl, job.text,age.text,description.text)
+              .then((value) {
+            AllertDropdown.success("Update Success");
+            Navigator.pushNamed(context, "/homeScreen");
+          });
+        },
+        text: "Update");
   }
 
-  editTodo(TodoList todoList, String name, String phone, String address,
-      String imgUrl, String job) {
-    todoList.name = name;
-    todoList.phone = phone;
-    todoList.address = address;
-    todoList.imgUrl = imgUrl;
-    todoList.job = job;
-    todoList.save();
+  Future editTodo(UserProfile userProfile, String name, String phone, String address,
+      String imgUrl, String job,String age,String description) async {
+    userProfile.name = name;
+    userProfile.phone = phone;
+    userProfile.address = address;
+    userProfile.imgUrl = imgUrl;
+    userProfile.job = job;
+    userProfile.age = age;
+    userProfile.description = description;
+    await userProfile.save();
   }
 }
