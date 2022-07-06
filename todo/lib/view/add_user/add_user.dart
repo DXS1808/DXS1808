@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:todo/allert_dropdown/allert_dopdown.dart';
 import 'package:todo/component/pick_image/pick_image.dart';
 import 'package:todo/component/rouned_button.dart';
+import 'package:todo/view/add_user/user_avatar/avatar.dart';
 import '../../component/input_text_wrap.dart';
 import '../../constants/constants.dart';
 import '../../local_storage/boxes.dart';
@@ -43,7 +44,7 @@ class _AddUserState extends State<AddUser> {
             "Add User",
             style: TextStyle(fontWeight: FontWeight.bold),
           ),
-          backgroundColor: Constants.backgroundColor,
+          backgroundColor: Constants.BACKGROUND_COLOR,
         ),
         body: Form(
           key: _key,
@@ -57,25 +58,7 @@ class _AddUserState extends State<AddUser> {
                       ? imagePicker(context)
                       : Stack(
                           children: [
-                            ClipOval(
-                                child: Image.file(
-                              File(
-                                imagePath!,
-                              ),
-                              height: 100,
-                              width: 100,
-                              fit: BoxFit.cover,
-                              errorBuilder: (context, object, stackTrace) {
-                                return const CircleAvatar(
-                                  maxRadius: 50,
-                                  child: Icon(
-                                    Icons.error,
-                                    size: 20,
-                                    color: Colors.red,
-                                  ),
-                                );
-                              },
-                            )),
+                            Avatar(100, 100, imagePath!),
                             Positioned(
                                 bottom: 10,
                                 right: 18,
@@ -90,7 +73,7 @@ class _AddUserState extends State<AddUser> {
                                   },
                                   child: const Icon(
                                     Icons.camera_alt_outlined,
-                                    color: Constants.backgroundColor,
+                                    color: Constants.BACKGROUND_COLOR,
                                   ),
                                 ))
                           ],
@@ -137,7 +120,7 @@ class _AddUserState extends State<AddUser> {
       icon: const Icon(
         Icons.edit_outlined,
         size: 20,
-        color: Constants.backgroundColor,
+        color: Constants.BACKGROUND_COLOR,
       ),
       obscureText: false,
       validator: (str) {
@@ -154,7 +137,7 @@ class _AddUserState extends State<AddUser> {
       icon: const Icon(
         Icons.phone,
         size: 20,
-        color: Constants.backgroundColor,
+        color: Constants.BACKGROUND_COLOR,
       ),
       obscureText: false,
       validator: (str) {
@@ -173,7 +156,7 @@ class _AddUserState extends State<AddUser> {
       icon: const Icon(
         Icons.location_on_outlined,
         size: 20,
-        color: Constants.backgroundColor,
+        color: Constants.BACKGROUND_COLOR,
       ),
       obscureText: false,
       validator: (str) {
@@ -189,7 +172,7 @@ class _AddUserState extends State<AddUser> {
       icon: const Icon(
         Icons.edit_outlined,
         size: 20,
-        color: Constants.backgroundColor,
+        color: Constants.BACKGROUND_COLOR,
       ),
       obscureText: false,
       validator: (str) {
@@ -200,6 +183,7 @@ class _AddUserState extends State<AddUser> {
       },
     );
   }
+
   inputAge() {
     return InputTextWrap(
       label: "Age...",
@@ -207,7 +191,7 @@ class _AddUserState extends State<AddUser> {
       icon: const Icon(
         Icons.edit_outlined,
         size: 20,
-        color: Constants.backgroundColor,
+        color: Constants.BACKGROUND_COLOR,
       ),
       obscureText: false,
       validator: (str) {
@@ -218,6 +202,7 @@ class _AddUserState extends State<AddUser> {
       },
     );
   }
+
   inputDescription() {
     return InputTextWrap(
       label: "Description...",
@@ -225,7 +210,7 @@ class _AddUserState extends State<AddUser> {
       icon: const Icon(
         Icons.edit_outlined,
         size: 20,
-        color: Constants.backgroundColor,
+        color: Constants.BACKGROUND_COLOR,
       ),
       obscureText: false,
       validator: (str) {
@@ -252,7 +237,7 @@ class _AddUserState extends State<AddUser> {
         backgroundColor: Colors.grey.withOpacity(0.1),
         child: const Icon(
           Icons.camera_alt_outlined,
-          color: Constants.backgroundColor,
+          color: Constants.BACKGROUND_COLOR,
         ),
       ),
     );
@@ -263,7 +248,8 @@ class _AddUserState extends State<AddUser> {
     return RounedButton(
         onPress: () {
           if (_key.currentState!.validate()) {
-            addTodo(name.text, phone.text, address.text, imagePath!, job.text,age.text,description.text)
+            addTodo(name.text, phone.text, address.text, imagePath!, job.text,
+                    age.text, description.text)
                 .then((value) {
               AllertDropdown.success("Add user success");
               clear();
@@ -274,15 +260,16 @@ class _AddUserState extends State<AddUser> {
   }
 
   Future addTodo(String name, String phone, String address, String imgUrl,
-      String job, String age,String description) async {
-    final userProfile = UserProfile(name, phone, address, imgUrl, job, age,description)
-      ..name = name
-      ..phone = phone
-      ..address = address
-      ..imgUrl = imgUrl
-      ..job = job
-      ..age = age
-      ..description = description;
+      String job, String age, String description) async {
+    final userProfile =
+        UserProfile(name, phone, address, imgUrl, job, age, description)
+          ..name = name
+          ..phone = phone
+          ..address = address
+          ..imgUrl = imgUrl
+          ..job = job
+          ..age = age
+          ..description = description;
 
     final box = Boxes.getTodos();
     await box.add(userProfile);

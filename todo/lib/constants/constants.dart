@@ -1,9 +1,13 @@
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 
 class Constants {
-  static const Color backgroundColor = Color(0xff79D0C0);
-  static const double fontSize = 13;
-  static const String fontFamily ="Roboto";
+  static const Color BACKGROUND_COLOR = Color(0xff79D0C0);
+  static const Color TEXTCOLOR = Colors.black;
+
+  static const FontWeight FONTWEIGHT = FontWeight.w400;
+
+  static const double FONTSIZE = 13;
+  static const String FONTFAMILY ="Roboto";
   static const String SUCCESS = "success";
   static const String ERROR = "error";
 

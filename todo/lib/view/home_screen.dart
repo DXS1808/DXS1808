@@ -2,7 +2,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hive_flutter/adapters.dart';
-import 'package:todo/bloc/avatar_cubit.dart';
 import 'package:todo/constants/constants.dart';
 import 'package:todo/view/task_screen/user_list.dart';
 import '../local_storage/boxes.dart';
@@ -31,7 +30,7 @@ class _HomeScreenState extends State<HomeScreen> {
             "Todo List",
           ),
           automaticallyImplyLeading: false,
-          backgroundColor: Constants.backgroundColor,
+          backgroundColor: Constants.BACKGROUND_COLOR,
           actions: [
             IconButton(
               icon: const Icon(
@@ -121,7 +120,7 @@ class _HomeScreenState extends State<HomeScreen> {
         padding: const EdgeInsets.all(10.0),
         decoration: BoxDecoration(
             borderRadius: const BorderRadius.all(Radius.circular(20.0)),
-            color: Constants.backgroundColor.withOpacity(0.6)),
+            color: Constants.BACKGROUND_COLOR.withOpacity(0.6)),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: const [

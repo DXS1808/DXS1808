@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/adapters.dart';
 import 'package:todo/allert_dropdown/allert_dopdown.dart';
@@ -6,6 +7,7 @@ import '../../local_storage/boxes.dart';
 import '../../component/rouned_button.dart';
 import '../../constants/constants.dart';
 import '../../model/account.dart';
+import '../../router/router.dart';
 
 class LoginScreen extends StatefulWidget {
   @override
@@ -19,18 +21,14 @@ class _LoginScreenState extends State<LoginScreen> {
   final GlobalKey<FormState> _key = GlobalKey<FormState>();
   bool _passwordVisible = true;
   static final navigatorKey = GlobalKey<NavigatorState>();
-  // @override
-  // void initState() async {
-  //   await Hive.openBox<User>("account");
-  //   // TODO: implement initState
-  //   super.initState();
-  // }
 
   @override
   Widget build(BuildContext context) {
-    Size size = MediaQuery.of(context).size;
+    Size size = MediaQuery
+        .of(context)
+        .size;
     return GestureDetector(
-      onTap: (){
+      onTap: () {
         FocusScope.of(context).unfocus();
       },
       child: Material(
@@ -78,16 +76,16 @@ class _LoginScreenState extends State<LoginScreen> {
                         const SizedBox(
                           height: 50.0,
                         ),
-                        loginButton(box.values.toList(),context),
+                        loginButton(box.values.toList(), context),
                         const SizedBox(height: 20.0),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             const Text("Don't have account?",
-                            style: TextStyle(
-                              fontSize: Constants.fontSize,
-                              fontFamily: Constants.fontFamily
-                            ),
+                              style: TextStyle(
+                                  fontSize: Constants.FONTSIZE,
+                                  fontFamily: Constants.FONTFAMILY
+                              ),
                             ),
                             TextButton(
                               onPressed: () {
@@ -97,10 +95,10 @@ class _LoginScreenState extends State<LoginScreen> {
                               child: const Text(
                                 "Sign up",
                                 style: TextStyle(
-                                  decoration: TextDecoration.underline,
-                                    color: Constants.backgroundColor,
-                                  fontSize: Constants.fontSize,
-                                  fontFamily: Constants.fontFamily
+                                    decoration: TextDecoration.underline,
+                                    color: Constants.BACKGROUND_COLOR,
+                                    fontSize: Constants.FONTSIZE,
+                                    fontFamily: Constants.FONTFAMILY
                                 ),
                               ),
                             )
@@ -125,7 +123,7 @@ class _LoginScreenState extends State<LoginScreen> {
         icon: const Icon(
           Icons.person_outline,
           size: 20,
-          color: Constants.backgroundColor,
+          color: Constants.BACKGROUND_COLOR,
         ),
         validator: (str) {
           if (input.hasMatch(str!) == false && str.isNotEmpty) {
@@ -141,7 +139,6 @@ class _LoginScreenState extends State<LoginScreen> {
           //   }
           // }
           return null;
-
         });
   }
 
@@ -152,14 +149,14 @@ class _LoginScreenState extends State<LoginScreen> {
         icon: const Icon(
           Icons.lock_outline,
           size: 15,
-          color: Constants.backgroundColor,
+          color: Constants.BACKGROUND_COLOR,
         ),
         obscureText: _passwordVisible,
         iconSuffix: GestureDetector(
           child: Icon(
             // Based on passwordVisible state choose the icon
             _passwordVisible ? Icons.visibility_off : Icons.visibility,
-            color: Constants.backgroundColor,
+            color: Constants.BACKGROUND_COLOR,
           ),
           onTap: () {
             // Update the state i.e. toogle the state of passwordVisible variable
@@ -191,22 +188,52 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   loginButton(List<Account> users, BuildContext context) {
-    Size size = MediaQuery.of(context).size;
+    Size size = MediaQuery
+        .of(context)
+        .size;
     return RounedButton(
       onPress: () {
+              getUser();
         if (_key.currentState!.validate()) {
-          for (int i = 0; i <= users.length - 1; i++) {
-            if (users[i].email == email.value.text &&
-                users[i].password == password.value.text) {
-              AllertDropdown.success("Login Success");
-              Navigator.pushNamed(context, "/homeScreen");
-            }
-            }
-          }
-        },
+          signInUser(context).then((value) {
+           AllertDropdown.success("Login Success");
+          }).onError((error, stackTrace){
+            AllertDropdown.error("Login failed. Email or password is wrong");
+          });
+          // for (int i = 0; i <= users.length - 1; i++) {
+          //   if (users[i].email == email.value.text &&
+          //       users[i].password == password.value.text) {
+          //     AllertDropdown.success("Login Success");
+          //     Navigator.pushNamed(context, "/homeScreen");
+          //   }
+          // }
+        }
+      },
       text: 'Login',
     );
   }
+
+  void getUser() async{
+   try{
+     if(FirebaseAuth.instance.currentUser != null){
+       print(FirebaseAuth.instance.currentUser!.email);
+     }
+   }catch(e){
+     print(e);
+   }
+  }
+
+  Future<void> signInUser(BuildContext context) async {
+    try {
+     await FirebaseAuth.instance
+          .signInWithEmailAndPassword(email: email.text, password: password.text);
+      if (!mounted) return;
+      Navigator.pushNamed(context, AppRouter.homeScreen);
+    }on FirebaseAuthException catch (e){
+      print(e);
+    }
+  }
+
   @override
   void dispose() {
     email.clear();

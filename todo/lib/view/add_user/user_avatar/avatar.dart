@@ -1,28 +1,29 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:todo/bloc/avatar_cubit.dart';
-
-
 
 class Avatar extends StatelessWidget {
   double height;
   double width;
-  Avatar(this.height,this.width);
+  String imgUrl;
+  Avatar(this.height,this.width,this.imgUrl);
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<BlocAvatar,String>(
-        builder: (context, state){
-          return state == "" ?const CircleAvatar(
-            maxRadius: 30,
-          ):ClipOval(
+    return ClipOval(
             child: Image.file(
-              File(state),
+              File(imgUrl),
               height: height,
               width: width,
               fit: BoxFit.cover,
+              errorBuilder: (context, object, stackTrace) {
+                return ClipOval(
+                  child: Image.asset("assets/images.png",
+                  width: width,
+                    height: height,
+                    fit: BoxFit.cover,
+                  ),
+                );
+              },
             ),
           );
-    });
   }
 }

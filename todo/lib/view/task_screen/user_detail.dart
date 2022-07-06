@@ -19,10 +19,10 @@ class UserDetail extends StatelessWidget {
           title: const Text(
             "User Detail",
             style: TextStyle(
-              fontFamily: Constants.fontFamily,
+              fontFamily: Constants.FONTFAMILY,
             ),
           ),
-          backgroundColor: Constants.backgroundColor,
+          backgroundColor: Constants.BACKGROUND_COLOR,
         ),
         body: Column(
           children: [
@@ -43,7 +43,7 @@ class UserDetail extends StatelessWidget {
                               const Offset(0, 3), // changes position of shadow
                         ),
                       ],
-                      color: Constants.backgroundColor.withOpacity(0.8)),
+                      color: Constants.BACKGROUND_COLOR.withOpacity(0.8)),
                 ),
                 Positioned(
                   child: Container(
@@ -56,14 +56,7 @@ class UserDetail extends StatelessWidget {
                         const SizedBox(
                           height: 100,
                         ),
-                        // Avatar(100,100),
-                        ClipOval(
-                            child: Image.file(
-                          File(userProfile.imgUrl),
-                          height: 100,
-                          width: 100,
-                          fit: BoxFit.cover,
-                        )),
+                        Avatar(100,100,userProfile.imgUrl),
                         const SizedBox(
                           height: 10.0,
                         ),
@@ -71,7 +64,7 @@ class UserDetail extends StatelessWidget {
                           userProfile.name,
                           style: const TextStyle(
                             fontWeight: FontWeight.w700,
-                            fontFamily: Constants.fontFamily,
+                            fontFamily: Constants.FONTFAMILY,
                           ),
                         ),
 
@@ -83,12 +76,12 @@ class UserDetail extends StatelessWidget {
                               const Icon(
                                 Icons.location_on_outlined,
                                 size: 20,
-                                color: Constants.backgroundColor,
+                                color: Constants.BACKGROUND_COLOR,
                               ),
                               const SizedBox(width: 8.0,),
                               Text(
                                 userProfile.address,
-                                style: const TextStyle(fontFamily: Constants.fontFamily),
+                                style: const TextStyle(fontFamily: Constants.FONTFAMILY),
                               )
                             ],
                           ),
@@ -101,11 +94,11 @@ class UserDetail extends StatelessWidget {
                               const Icon(
                                 Icons.phone,
                                 size: 20,
-                                color: Constants.backgroundColor,
+                                color: Constants.BACKGROUND_COLOR,
                               ),
                               const SizedBox(width: 8.0,),
                               Text(userProfile.phone,
-                                style: const TextStyle(fontFamily: Constants.fontFamily),
+                                style: const TextStyle(fontFamily: Constants.FONTFAMILY),
                               )
                             ],
                           ),
@@ -137,14 +130,14 @@ class UserDetail extends StatelessWidget {
         Text(
           title,
           style: const TextStyle(
-              fontFamily: Constants.fontFamily,
+              fontFamily: Constants.FONTFAMILY,
               fontWeight: FontWeight.w100,
               fontSize: 14),
         ),
         Text(
           content,
           style:
-              const TextStyle(fontFamily: Constants.fontFamily, fontSize: 16),
+              const TextStyle(fontFamily: Constants.FONTFAMILY, fontSize: 16),
         )
       ],
     );

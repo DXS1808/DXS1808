@@ -17,12 +17,7 @@ class UserProfile extends HiveObject {
   @HiveField(5)
   String age;
   @HiveField(6)
-  String description;
+  String ? description;
 
   UserProfile(this.name,this.phone,this.address,this.imgUrl,this.job,this.age,this.description);
-
-  // factory TodoList.fromJson(Map<String,dynamic> json) => _$TodoListFromJson(json);
-  //
-  // Map<String, dynamic> toJson() => _$TodoListToJson(this);
-
 }

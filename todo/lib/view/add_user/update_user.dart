@@ -2,7 +2,6 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:todo/allert_dropdown/allert_dopdown.dart';
-import 'package:todo/bloc/avatar_cubit.dart';
 import 'package:todo/component/pick_image/pick_image.dart';
 import 'package:todo/component/rouned_button.dart';
 import 'package:todo/view/add_user/user_avatar/avatar.dart';
@@ -42,7 +41,9 @@ class _TodoUpdateState extends State<TodoUpdate> {
     address.text = widget.userProfile.address;
     job.text = widget.userProfile.job;
     age.text = widget.userProfile.age;
-    description.text = widget.userProfile.description;
+    if(widget.userProfile.description != null){
+      description.text = widget.userProfile.description!;
+    }
     // imageFile = widget.todoList.imgUrl;
     // TODO: implement initState
     super.initState();
@@ -50,13 +51,12 @@ class _TodoUpdateState extends State<TodoUpdate> {
 
   @override
   Widget build(BuildContext context) {
-    BlocAvatar bloc = context.read();
     return Scaffold(
         appBar: AppBar(
-          backgroundColor: Constants.backgroundColor,
+          backgroundColor: Constants.BACKGROUND_COLOR,
           title: const Text(
             "Update User",
-            style: TextStyle(fontFamily: Constants.fontFamily),
+            style: TextStyle(fontFamily: Constants.FONTFAMILY),
           ),
         ),
         body: Form(
@@ -70,15 +70,7 @@ class _TodoUpdateState extends State<TodoUpdate> {
                 children: [
                   Stack(
                     children: [
-                      ClipOval(
-                          child: Image.file(
-                            File(
-                              widget.userProfile.imgUrl,
-                            ),
-                            height: 100,
-                            width: 100,
-                            fit: BoxFit.cover,
-                          )),
+                      Avatar(100, 100, widget.userProfile.imgUrl),
                       Positioned(
                           bottom: 0,
                           right: 0,
@@ -86,7 +78,7 @@ class _TodoUpdateState extends State<TodoUpdate> {
                             icon: const Icon(
                               Icons.camera_alt_outlined,
                               size: 20,
-                              color: Constants.backgroundColor,
+                              color: Constants.BACKGROUND_COLOR,
                             ),
                             onPressed: () {
                               PickImage.imagePicker(context).then((value) {
@@ -138,7 +130,7 @@ class _TodoUpdateState extends State<TodoUpdate> {
       icon: const Icon(
         Icons.edit_outlined,
         size: 20,
-        color: Constants.backgroundColor,
+        color: Constants.BACKGROUND_COLOR,
       ),
       obscureText: false,
       validator: (str) {
@@ -155,7 +147,7 @@ class _TodoUpdateState extends State<TodoUpdate> {
       icon: const Icon(
         Icons.phone,
         size: 20,
-        color: Constants.backgroundColor,
+        color: Constants.BACKGROUND_COLOR,
       ),
       obscureText: false,
       validator: (str) {
@@ -174,7 +166,7 @@ class _TodoUpdateState extends State<TodoUpdate> {
       icon: const Icon(
         Icons.location_on_outlined,
         size: 20,
-        color: Constants.backgroundColor,
+        color: Constants.BACKGROUND_COLOR,
       ),
       obscureText: false,
       validator: (str) {
@@ -189,7 +181,7 @@ class _TodoUpdateState extends State<TodoUpdate> {
       icon: const Icon(
         Icons.edit_outlined,
         size: 20,
-        color: Constants.backgroundColor,
+        color: Constants.BACKGROUND_COLOR,
       ),
       obscureText: false,
       validator: (str) {
@@ -207,7 +199,7 @@ class _TodoUpdateState extends State<TodoUpdate> {
       icon: const Icon(
         Icons.edit_outlined,
         size: 20,
-        color: Constants.backgroundColor,
+        color: Constants.BACKGROUND_COLOR,
       ),
       obscureText: false,
       validator: (str) {
@@ -226,7 +218,7 @@ class _TodoUpdateState extends State<TodoUpdate> {
       icon: const Icon(
         Icons.edit_outlined,
         size: 20,
-        color: Constants.backgroundColor,
+        color: Constants.BACKGROUND_COLOR,
       ),
       obscureText: false,
       validator: (str) {
@@ -239,7 +231,6 @@ class _TodoUpdateState extends State<TodoUpdate> {
   }
 
   buttonUpdate(BuildContext context) {
-    BlocAvatar blocAvatar = context.read();
     return RounedButton(
         onPress: () {
           editTodo(widget.userProfile, name.text, phone.text, address.text,

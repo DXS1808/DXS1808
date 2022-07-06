@@ -2,9 +2,10 @@ import 'package:flutter/cupertino.dart';
 
 class PageRouter extends Route {
   Widget page;
-  PageRouter(this.page);
+  BuildContext context;
+  PageRouter(this.page,this.context);
 
-  PageRouteBuilder build(BuildContext context) {
+  PageRouteBuilder build() {
     return PageRouteBuilder(
       pageBuilder: (context, animation, secondaryAnimation) =>
           page,

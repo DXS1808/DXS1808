@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/adapters.dart';
 import 'package:todo/allert_dropdown/allert_dopdown.dart';
@@ -6,6 +7,7 @@ import 'package:todo/constants/constants.dart';
 import '../../local_storage/boxes.dart';
 import '../../component/rouned_button.dart';
 import '../../model/account.dart';
+import '../../router/router.dart';
 
 class SignUpScreen extends StatefulWidget {
   @override
@@ -13,7 +15,7 @@ class SignUpScreen extends StatefulWidget {
 }
 
 class _SignUpScreenState extends State<SignUpScreen> {
-  List<Account> users = [];
+
   TextEditingController email = TextEditingController();
 
   TextEditingController password = TextEditingController();
@@ -26,6 +28,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
   bool _passwordVisible = true;
   bool passwordVisibleConfirm = true;
+
   // var box = Hive.box("user");
 
   @override
@@ -36,63 +39,67 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
   @override
   Widget build(BuildContext context) {
-    Size size = MediaQuery.of(context).size;
+    Size size = MediaQuery
+        .of(context)
+        .size;
     return Scaffold(
-      appBar: AppBar(
-        automaticallyImplyLeading: true,
-        backgroundColor: Constants.backgroundColor,
-      ),
-      body: ValueListenableBuilder<Box<Account>>(
-        valueListenable: Boxes.getUsers().listenable(),
-        builder:(context,box,_){
-          return Form(
-            key: _key,
-            child:Container(
-              padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 20.0),
-              decoration: const BoxDecoration(
-                  image: DecorationImage(
-                      image: AssetImage('assets/login.png'), fit: BoxFit.cover)
-                // gradient: LinearGradient(colors: [
-                //   Constants.backgroundColor,
-                //   Color(0xffFFFFFF),
-                // ], begin: Alignment.topLeft, end: Alignment.bottomRight)
-              ),
-              child: SingleChildScrollView(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    SizedBox(height: size.height/7,),
-                    const Text(
-                      "SignUp",
-                      style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 30,
-                          color: Colors.white),
+        appBar: AppBar(
+          automaticallyImplyLeading: true,
+          backgroundColor: Constants.BACKGROUND_COLOR,
+        ),
+        body: ValueListenableBuilder<Box<Account>>(
+            valueListenable: Boxes.getUsers().listenable(),
+            builder: (context, box, _) {
+              return Form(
+                key: _key,
+                child: Container(
+                  padding: const EdgeInsets.symmetric(
+                      horizontal: 10.0, vertical: 20.0),
+                  decoration: const BoxDecoration(
+                      image: DecorationImage(
+                          image: AssetImage('assets/login.png'),
+                          fit: BoxFit.cover)
+                    // gradient: LinearGradient(colors: [
+                    //   Constants.backgroundColor,
+                    //   Color(0xffFFFFFF),
+                    // ], begin: Alignment.topLeft, end: Alignment.bottomRight)
+                  ),
+                  child: SingleChildScrollView(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        SizedBox(height: size.height / 7,),
+                        const Text(
+                          "SignUp",
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 30,
+                              color: Colors.white),
+                        ),
+                        const SizedBox(
+                          height: 60,
+                        ),
+                        inputUserName(box.values.toList()),
+                        const SizedBox(
+                          height: 10.0,
+                        ),
+                        inputPassword(),
+                        const SizedBox(
+                          height: 10.0,
+                        ),
+                        conFirmPassword(),
+                        const SizedBox(
+                          height: 50.0,
+                        ),
+                        signUpButton(context)
+                      ],
                     ),
-                    const SizedBox(
-                      height: 60,
-                    ),
-                    inputUserName(box.values.toList()),
-                    const SizedBox(
-                      height: 10.0,
-                    ),
-                    inputPassword(),
-                    const SizedBox(
-                      height: 10.0,
-                    ),
-                    conFirmPassword(),
-                    const SizedBox(
-                      height: 50.0,
-                    ),
-                    signUpButton(context)
-                  ],
+                  ),
                 ),
-              ),
-            ),
-          );
-        }
+              );
+            }
 
-      )
+        )
     );
   }
 
@@ -104,7 +111,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
         icon: const Icon(
           Icons.person_outline,
           size: 20,
-          color: Constants.backgroundColor,
+          color: Constants.BACKGROUND_COLOR,
         ),
         validator: (str) {
           if (str!.isNotEmpty) {
@@ -132,14 +139,14 @@ class _SignUpScreenState extends State<SignUpScreen> {
         icon: const Icon(
           Icons.lock_outline,
           size: 20,
-          color: Constants.backgroundColor,
+          color: Constants.BACKGROUND_COLOR,
         ),
         obscureText: _passwordVisible,
         iconSuffix: GestureDetector(
           child: Icon(
             // Based on passwordVisible state choose the icon
             _passwordVisible ? Icons.visibility_off : Icons.visibility,
-            color: Constants.backgroundColor,
+            color: Constants.BACKGROUND_COLOR,
           ),
           onTap: () {
             // Update the state i.e. toogle the state of passwordVisible variable
@@ -151,9 +158,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
         validator: (str) {
           if (str!.isEmpty) {
             return "Password is required";
-          }else if(!regex.hasMatch(str)){
-            return "Enter valid password";
           }
+          // else if (!regex.hasMatch(str)) {
+          //   return "Enter valid password";
+          // }
           return null;
         });
   }
@@ -165,14 +173,14 @@ class _SignUpScreenState extends State<SignUpScreen> {
         icon: const Icon(
           Icons.lock_outline,
           size: 20,
-          color: Constants.backgroundColor,
+          color: Constants.BACKGROUND_COLOR,
         ),
         obscureText: passwordVisibleConfirm,
         iconSuffix: GestureDetector(
           child: Icon(
             // Based on passwordVisible state choose the icon
             passwordVisibleConfirm ? Icons.visibility_off : Icons.visibility,
-            color: Constants.backgroundColor,
+            color: Constants.BACKGROUND_COLOR,
           ),
           onTap: () {
             // Update the state i.e. toogle the state of passwordVisible variable
@@ -201,11 +209,15 @@ class _SignUpScreenState extends State<SignUpScreen> {
       onPress: () {
         // _key.currentState!.save();
         if (_key.currentState!.validate()) {
-          addUser(email.value.text, password.value.text).then((value) {
-            // blocUser.user(email.value.text, password.value.text);
-              AllertDropdown.success("Sign up success");
-            Navigator.pushNamed(context, "/login");
+          registerUser().then((value) {
+            // addUser(email.value.text, password.value.text);
+            AllertDropdown.success("Sign up success");
           });
+          // addUser(email.value.text, password.value.text).then((value) {
+          //   // blocUser.user(email.value.text, password.value.text);
+          //   AllertDropdown.success("Sign up success");
+          //   Navigator.pushNamed(context, "/login");
+          // });
           // box.put("account", email.value.text);
           // box.put("password", password.value.text);
         }
@@ -225,14 +237,26 @@ class _SignUpScreenState extends State<SignUpScreen> {
     // box.put("password", password);
   }
 
-  // void editUser(){
-  //
-  // }
+  Future<void> registerUser() async {
+    try {
+     await FirebaseAuth.instance
+          .createUserWithEmailAndPassword(
+          email: email.value.text.trim(), password: password.value.text.trim());
+      if (!mounted) return;
+      Navigator.pushNamed(context, AppRouter.homeScreen);
+    }catch (e){
+      print(e);
+    }
+  }
 
-  // @override
-  // void dispose() {
-  //   // TODO: implement dispose
-  //   Hive.close();
-  //   super.dispose();
-  // }
+// void editUser(){
+//
+// }
+
+// @override
+// void dispose() {
+//   // TODO: implement dispose
+//   Hive.close();
+//   super.dispose();
+// }
 }

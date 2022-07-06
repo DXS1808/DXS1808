@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:todo/constants/constants.dart';
 
-class StateSnackBar extends StatelessWidget {
+class AllertDropDown extends StatelessWidget {
   String state;
-  StateSnackBar({Key? key,required this.state}) : super(key: key);
+  AllertDropDown({Key? key,required this.state}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
