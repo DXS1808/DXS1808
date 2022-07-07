@@ -1,7 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import '../../../config/constants/constants.dart';
-import '../../../router/router.dart';
+import '../../../config/router/router.dart';
 import '../../component/allert_dropdown/allert_dopdown.dart';
 import '../../component/input_text_wrap.dart';
 import '../../component/rouned_button.dart';
@@ -96,7 +96,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                               child : const Text(
                                 "Sign in",
                                 style:TextStyle(
-                                  color: Constants.BACKGROUND_COLOR,
+                                  color: Constants.kBackgroundColor,
                                   decoration: TextDecoration.underline
                                 ) ,
                               )
@@ -120,7 +120,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
         icon: const Icon(
           Icons.person_outline,
           size: 20,
-          color: Constants.BACKGROUND_COLOR,
+          color: Constants.kBackgroundColor,
         ),
         validator: (str) {
           if (str!.isNotEmpty) {
@@ -142,14 +142,14 @@ class _SignUpScreenState extends State<SignUpScreen> {
         icon: const Icon(
           Icons.lock_outline,
           size: 20,
-          color: Constants.BACKGROUND_COLOR,
+          color: Constants.kBackgroundColor,
         ),
         obscureText: _passwordVisible,
         iconSuffix: GestureDetector(
           child: Icon(
             // Based on passwordVisible state choose the icon
             _passwordVisible ? Icons.visibility_off : Icons.visibility,
-            color: Constants.BACKGROUND_COLOR,
+            color: Constants.kBackgroundColor,
           ),
           onTap: () {
             // Update the state i.e. toogle the state of passwordVisible variable
@@ -176,13 +176,13 @@ class _SignUpScreenState extends State<SignUpScreen> {
         icon: const Icon(
           Icons.lock_outline,
           size: 20,
-          color: Constants.BACKGROUND_COLOR,
+          color: Constants.kBackgroundColor,
         ),
         obscureText: passwordVisibleConfirm,
         iconSuffix: GestureDetector(
           child: Icon(
             passwordVisibleConfirm ? Icons.visibility_off : Icons.visibility,
-            color: Constants.BACKGROUND_COLOR,
+            color: Constants.kBackgroundColor,
           ),
           onTap: () {
             setState(() {
@@ -226,8 +226,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
   //
   //   final box = Boxes.getUsers();
   //   await box.add(user);
-  //   // print(box.add(user));
-  //   // box.put("password", password);
   // }
 
   Future registerUser() async {

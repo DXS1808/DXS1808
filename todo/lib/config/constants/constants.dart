@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
 
 class Constants {
-  static const Color BACKGROUND_COLOR = Color(0xff79D0C0);
-  static const Color TEXTCOLOR = Colors.black;
+  static const Color kBackgroundColor = Color(0xff79D0C0);
+  static const Color kTextColor = Colors.black;
 
-  static const FontWeight FONTWEIGHT = FontWeight.w400;
+  static const FontWeight kFontWeight = FontWeight.w400;
 
-  static const double FONTSIZE = 13;
-  static const String FONTFAMILY ="Roboto";
-  static const String SUCCESS = "success";
-  static const String ERROR = "error";
+  static const double kFontSize = 13;
+  static const String kFontFamily ="Roboto";
+  static const String kSuccess = "success";
+  static const String kError = "error";
 
-  static const double MAX_HEIGHT = 1250;
-  static const double MAX_WIDTH = 1200;
-  static const int IMAGE_QUALITY = 85;
+  static const double kMaxHeight = 1250;
+  static const double kMaxWidth = 1200;
+  static const int kImageQuality = 85;
 }

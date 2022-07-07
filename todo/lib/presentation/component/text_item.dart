@@ -12,10 +12,10 @@ class TextItem extends StatelessWidget {
     return Text(
       content,
       style: const TextStyle(
-          fontFamily: Constants.FONTFAMILY,
+          fontFamily: Constants.kFontFamily,
           fontSize: 12,
-          color: Constants.TEXTCOLOR,
-          fontWeight: Constants.FONTWEIGHT,
+          color: Constants.kTextColor,
+          fontWeight: Constants.kFontWeight,
       ),
     );
   }

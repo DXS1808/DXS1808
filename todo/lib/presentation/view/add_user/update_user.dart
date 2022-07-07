@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import '../../../config/constants/constants.dart';
 import '../../../model/user_profile.dart';
@@ -32,7 +31,6 @@ class _TodoUpdateState extends State<TodoUpdate> {
   TextEditingController urlFacebook = TextEditingController();
   TextEditingController urlTelegram = TextEditingController();
 
-
   final GlobalKey<FormState> _key = GlobalKey<FormState>();
 
   // String? imageFile;
@@ -44,13 +42,13 @@ class _TodoUpdateState extends State<TodoUpdate> {
     address.text = widget.userProfile.address;
     job.text = widget.userProfile.job;
     age.text = widget.userProfile.age;
-    if(widget.userProfile.description != null){
+    if (widget.userProfile.description != null) {
       description.text = widget.userProfile.description!;
     }
-    if(widget.userProfile.urlFacebook != null) {
+    if (widget.userProfile.urlFacebook != null) {
       urlFacebook.text = widget.userProfile.urlFacebook!;
     }
-    if(widget.userProfile.urlTelegram != null) {
+    if (widget.userProfile.urlTelegram != null) {
       urlTelegram.text = widget.userProfile.urlTelegram!;
     }
     // imageFile = widget.todoList.imgUrl;
@@ -62,17 +60,18 @@ class _TodoUpdateState extends State<TodoUpdate> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          backgroundColor: Constants.BACKGROUND_COLOR,
+          backgroundColor: Constants.kBackgroundColor,
           title: const Text(
             "Update User",
-            style: TextStyle(fontFamily: Constants.FONTFAMILY),
+            style: TextStyle(fontFamily: Constants.kFontFamily),
           ),
         ),
         body: Form(
           key: _key,
           child: SingleChildScrollView(
-            child:Container(
-              padding: const EdgeInsets.symmetric(horizontal: 10.0,vertical: 10.0),
+            child: Container(
+              padding:
+                  const EdgeInsets.symmetric(horizontal: 10.0, vertical: 10.0),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.center,
@@ -146,7 +145,7 @@ class _TodoUpdateState extends State<TodoUpdate> {
       icon: const Icon(
         Icons.edit_outlined,
         size: 20,
-        color: Constants.BACKGROUND_COLOR,
+        color: Constants.kBackgroundColor,
       ),
       obscureText: false,
       validator: (str) {
@@ -163,7 +162,7 @@ class _TodoUpdateState extends State<TodoUpdate> {
       icon: const Icon(
         Icons.phone,
         size: 20,
-        color: Constants.BACKGROUND_COLOR,
+        color: Constants.kBackgroundColor,
       ),
       obscureText: false,
       validator: (str) {
@@ -182,7 +181,7 @@ class _TodoUpdateState extends State<TodoUpdate> {
       icon: const Icon(
         Icons.location_on_outlined,
         size: 20,
-        color: Constants.BACKGROUND_COLOR,
+        color: Constants.kBackgroundColor,
       ),
       obscureText: false,
       validator: (str) {
@@ -190,6 +189,7 @@ class _TodoUpdateState extends State<TodoUpdate> {
       },
     );
   }
+
   inputAge() {
     return InputTextWrap(
       label: "Age...",
@@ -197,7 +197,7 @@ class _TodoUpdateState extends State<TodoUpdate> {
       icon: const Icon(
         Icons.edit_outlined,
         size: 20,
-        color: Constants.BACKGROUND_COLOR,
+        color: Constants.kBackgroundColor,
       ),
       obscureText: false,
       validator: (str) {
@@ -208,6 +208,7 @@ class _TodoUpdateState extends State<TodoUpdate> {
       },
     );
   }
+
   inputDescription() {
     return InputTextWrap(
       label: "Tell Us About Yourself ...",
@@ -215,7 +216,7 @@ class _TodoUpdateState extends State<TodoUpdate> {
       icon: const Icon(
         Icons.edit_outlined,
         size: 20,
-        color: Constants.BACKGROUND_COLOR,
+        color: Constants.kBackgroundColor,
       ),
       obscureText: false,
       validator: (str) {
@@ -234,7 +235,7 @@ class _TodoUpdateState extends State<TodoUpdate> {
       icon: const Icon(
         Icons.edit_outlined,
         size: 20,
-        color: Constants.BACKGROUND_COLOR,
+        color: Constants.kBackgroundColor,
       ),
       obscureText: false,
       validator: (str) {
@@ -245,6 +246,7 @@ class _TodoUpdateState extends State<TodoUpdate> {
       },
     );
   }
+
   inputUrlFacebook() {
     return InputTextWrap(
       label: "Link Facebook...",
@@ -252,7 +254,7 @@ class _TodoUpdateState extends State<TodoUpdate> {
       icon: const Icon(
         Icons.link,
         size: 25,
-        color: Constants.BACKGROUND_COLOR,
+        color: Constants.kBackgroundColor,
       ),
       obscureText: false,
       validator: (str) {
@@ -263,6 +265,7 @@ class _TodoUpdateState extends State<TodoUpdate> {
       },
     );
   }
+
   inputUrlTelegram() {
     return InputTextWrap(
       label: "Link Telegram...",
@@ -270,7 +273,7 @@ class _TodoUpdateState extends State<TodoUpdate> {
       icon: const Icon(
         Icons.link,
         size: 25,
-        color: Constants.BACKGROUND_COLOR,
+        color: Constants.kBackgroundColor,
       ),
       obscureText: false,
       validator: (str) {
@@ -285,8 +288,17 @@ class _TodoUpdateState extends State<TodoUpdate> {
   buttonUpdate(BuildContext context) {
     return RounedButton(
         onPress: () {
-          editTodo(widget.userProfile, name.text, phone.text, address.text,
-                  widget.userProfile.imgUrl, job.text,age.text,description.text,urlFacebook.text,urlTelegram.text)
+          editTodo(
+                  widget.userProfile,
+                  name.text,
+                  phone.text,
+                  address.text,
+                  widget.userProfile.imgUrl,
+                  job.text,
+                  age.text,
+                  description.text,
+                  urlFacebook.text,
+                  urlTelegram.text)
               .then((value) {
             AllertDropdown.success("Update Success");
             Navigator.pushNamed(context, "/homeScreen");
@@ -295,8 +307,17 @@ class _TodoUpdateState extends State<TodoUpdate> {
         text: "Update");
   }
 
-  Future editTodo(UserProfile userProfile, String name, String phone, String address,
-      String imgUrl, String job,String age,String description, String urlFacebook, String urlTelegram ) async {
+  Future editTodo(
+      UserProfile userProfile,
+      String name,
+      String phone,
+      String address,
+      String imgUrl,
+      String job,
+      String age,
+      String description,
+      String urlFacebook,
+      String urlTelegram) async {
     userProfile.name = name;
     userProfile.phone = phone;
     userProfile.address = address;

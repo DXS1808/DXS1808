@@ -1,11 +1,9 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:hive_flutter/adapters.dart';
+import '../../../config/router/router.dart';
 import '../../component/input_text_wrap.dart';
 import '../../../config/constants/constants.dart';
-import '../../../router/router.dart';
 import '../../component/allert_dropdown/allert_dopdown.dart';
-import '../../component/input_text_wrap.dart';
 import '../../component/rouned_button.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -75,8 +73,8 @@ class _LoginScreenState extends State<LoginScreen> {
                           children: [
                             const Text("Don't have account?",
                               style: TextStyle(
-                                  fontSize: Constants.FONTSIZE,
-                                  fontFamily: Constants.FONTFAMILY
+                                  fontSize: Constants.kFontSize,
+                                  fontFamily: Constants.kFontFamily
                               ),
                             ),
                             TextButton(
@@ -88,9 +86,9 @@ class _LoginScreenState extends State<LoginScreen> {
                                 "Sign up",
                                 style: TextStyle(
                                     decoration: TextDecoration.underline,
-                                    color: Constants.BACKGROUND_COLOR,
-                                    fontSize: Constants.FONTSIZE,
-                                    fontFamily: Constants.FONTFAMILY
+                                    color: Constants.kBackgroundColor,
+                                    fontSize: Constants.kFontSize,
+                                    fontFamily: Constants.kFontFamily
                                 ),
                               ),
                             )
@@ -113,7 +111,7 @@ class _LoginScreenState extends State<LoginScreen> {
         icon: const Icon(
           Icons.person_outline,
           size: 20,
-          color: Constants.BACKGROUND_COLOR,
+          color: Constants.kBackgroundColor,
         ),
         validator: (str) {
           if (input.hasMatch(str!) == false && str.isNotEmpty) {
@@ -139,13 +137,13 @@ class _LoginScreenState extends State<LoginScreen> {
         icon: const Icon(
           Icons.lock_outline,
           size: 15,
-          color: Constants.BACKGROUND_COLOR,
+          color: Constants.kBackgroundColor,
         ),
         obscureText: _passwordVisible,
         iconSuffix: GestureDetector(
           child: Icon(
             _passwordVisible ? Icons.visibility_off : Icons.visibility,
-            color: Constants.BACKGROUND_COLOR,
+            color: Constants.kBackgroundColor,
           ),
           onTap: () {
             setState(() {
@@ -198,19 +196,9 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 
-  // void getUser() async{
-  //  try{
-  //    if(FirebaseAuth.instance.currentUser != null){
-  //      print(FirebaseAuth.instance.currentUser!.email);
-  //    }
-  //  }catch(e){
-  //    print(e);
-  //  }
-  // }
-  //
   Future<void> signInUser(BuildContext context) async {
     try {
-      UserCredential userCredential = await FirebaseAuth.instance
+      await FirebaseAuth.instance
           .signInWithEmailAndPassword(email: email.text, password: password.text);
       AllertDropdown.success("Login Success");
       Navigator.pushNamed(context, AppRouter.homeScreen);
@@ -223,7 +211,6 @@ class _LoginScreenState extends State<LoginScreen> {
   void dispose() {
     email.clear();
     password.clear();
-    Hive.close();
     super.dispose();
   }
 

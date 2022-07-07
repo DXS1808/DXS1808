@@ -34,7 +34,7 @@ class _SplashState extends State<Splash> {
       navigateAfterSeconds: LoginScreen(),
       title: const Text('TODO LIST',textScaleFactor: 2,
       style: TextStyle(
-        fontFamily: Constants.FONTFAMILY,
+        fontFamily: Constants.kFontFamily,
         fontWeight: FontWeight.w400
       ),
       ),
@@ -42,7 +42,7 @@ class _SplashState extends State<Splash> {
       loadingText: const Text("Loading..."),
       backgroundColor: Colors.white,
       photoSize: 100.0,
-      loaderColor: Constants.BACKGROUND_COLOR,
+      loaderColor: Constants.kBackgroundColor,
     );
   }
 }

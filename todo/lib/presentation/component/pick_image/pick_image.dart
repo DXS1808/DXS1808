@@ -13,14 +13,14 @@ class PickImage {
     try {
       return await ImagePicker().pickImage(
         source: ImageSource.gallery,
-        maxHeight: Constants.MAX_HEIGHT,
-        maxWidth: Constants.MAX_WIDTH,
-        imageQuality: Constants.IMAGE_QUALITY,
+        maxHeight: Constants.kMaxHeight,
+        maxWidth: Constants.kMaxWidth,
+        imageQuality: Constants.kImageQuality,
       );
       // if (image == null) return;
       // final imageResult = File(image.path);
       // // pathImage = image.path;
-    } on PlatformException catch (e) {
+    } catch (e) {
       AllertDropdown.error("Failed to pick image $e");
       throw ("Picker Failed");
     }

@@ -31,7 +31,7 @@ class _PreviewWebState extends State<PreviewWeb> {
     Completer<WebViewController>();
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Constants.BACKGROUND_COLOR,
+        backgroundColor: Constants.kBackgroundColor,
       ),
       body: WebView(
           initialUrl: widget.url,

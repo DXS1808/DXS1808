@@ -1,9 +1,10 @@
 import 'package:flutter/cupertino.dart';
 
-import '../presentation/view/home_screen.dart';
-import '../presentation/view/login/login_screen.dart';
-import '../presentation/view/login/signup_screen.dart';
-import '../presentation/view/splash.dart';
+import '../../presentation/view/home_screen.dart';
+import '../../presentation/view/login/login_screen.dart';
+import '../../presentation/view/login/signup_screen.dart';
+import '../../presentation/view/splash.dart';
+
 
 
 class AppRouter {

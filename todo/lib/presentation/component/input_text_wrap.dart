@@ -20,18 +20,18 @@ class InputTextWrap extends StatelessWidget {
       decoration: InputDecoration(
         contentPadding:const EdgeInsets.all(15.0),
         labelStyle: const TextStyle(
-          color: Constants.BACKGROUND_COLOR
+          color: Constants.kBackgroundColor
         ),
           labelText: label,
           prefixIcon: icon,
           suffixIcon: iconSuffix,
           focusedBorder: const OutlineInputBorder(
             borderRadius: BorderRadius.all(Radius.circular(20.0)),
-            borderSide: BorderSide(color: Constants.BACKGROUND_COLOR, width: 1.0),
+            borderSide: BorderSide(color: Constants.kBackgroundColor, width: 1.0),
           ),
           enabledBorder: const OutlineInputBorder(
             borderRadius: BorderRadius.all(Radius.circular(20.0)),
-            borderSide: BorderSide(color: Constants.BACKGROUND_COLOR, width: 1.0),
+            borderSide: BorderSide(color: Constants.kBackgroundColor, width: 1.0),
           ),
           border: const OutlineInputBorder(
             borderRadius: BorderRadius.all(Radius.circular(20.0)),

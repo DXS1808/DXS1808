@@ -1,5 +1,5 @@
-
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 import '../../../config/constants/constants.dart';
 import '../../../data_sources/local_storage/boxes.dart';
 import '../../../model/user_profile.dart';
@@ -8,7 +8,6 @@ import '../../component/input_text_wrap.dart';
 import '../../component/pick_image/pick_image.dart';
 import '../../component/rouned_button.dart';
 import 'user_avatar/avatar.dart';
-
 
 class AddUser extends StatefulWidget {
   @override
@@ -47,7 +46,7 @@ class _AddUserState extends State<AddUser> {
             "Add User",
             style: TextStyle(fontWeight: FontWeight.bold),
           ),
-          backgroundColor: Constants.BACKGROUND_COLOR,
+          backgroundColor: Constants.kBackgroundColor,
         ),
         body: Form(
           key: _key,
@@ -58,7 +57,12 @@ class _AddUserState extends State<AddUser> {
               child: Column(
                 children: [
                   imagePath == null
-                      ? imagePicker(context)
+                      ? uploadImage((str) {
+                        if(str == null){
+                          return "Upload Image is required";
+                        }
+                        return null;
+                  })
                       : Stack(
                           children: [
                             Avatar(100, 100, imagePath!),
@@ -76,7 +80,7 @@ class _AddUserState extends State<AddUser> {
                                   },
                                   child: const Icon(
                                     Icons.camera_alt_outlined,
-                                    color: Constants.BACKGROUND_COLOR,
+                                    color: Constants.kBackgroundColor,
                                   ),
                                 ))
                           ],
@@ -131,7 +135,7 @@ class _AddUserState extends State<AddUser> {
       icon: const Icon(
         Icons.edit_outlined,
         size: 20,
-        color: Constants.BACKGROUND_COLOR,
+        color: Constants.kBackgroundColor,
       ),
       obscureText: false,
       validator: (str) {
@@ -148,7 +152,7 @@ class _AddUserState extends State<AddUser> {
       icon: const Icon(
         Icons.phone,
         size: 20,
-        color: Constants.BACKGROUND_COLOR,
+        color: Constants.kBackgroundColor,
       ),
       obscureText: false,
       validator: (str) {
@@ -167,7 +171,7 @@ class _AddUserState extends State<AddUser> {
       icon: const Icon(
         Icons.location_on_outlined,
         size: 20,
-        color: Constants.BACKGROUND_COLOR,
+        color: Constants.kBackgroundColor,
       ),
       obscureText: false,
       validator: (str) {
@@ -183,7 +187,7 @@ class _AddUserState extends State<AddUser> {
       icon: const Icon(
         Icons.edit_outlined,
         size: 20,
-        color: Constants.BACKGROUND_COLOR,
+        color: Constants.kBackgroundColor,
       ),
       obscureText: false,
       validator: (str) {
@@ -202,7 +206,7 @@ class _AddUserState extends State<AddUser> {
       icon: const Icon(
         Icons.edit_outlined,
         size: 20,
-        color: Constants.BACKGROUND_COLOR,
+        color: Constants.kBackgroundColor,
       ),
       obscureText: false,
       validator: (str) {
@@ -221,17 +225,18 @@ class _AddUserState extends State<AddUser> {
       icon: const Icon(
         Icons.edit_outlined,
         size: 20,
-        color: Constants.BACKGROUND_COLOR,
+        color: Constants.kBackgroundColor,
       ),
       obscureText: false,
       validator: (str) {
         if (str!.isEmpty) {
-          return "Description is required";
+          return "This field is required";
         }
         return null;
       },
     );
   }
+
   inputUrlFacebook() {
     return InputTextWrap(
       label: "Link Facebook...",
@@ -239,7 +244,7 @@ class _AddUserState extends State<AddUser> {
       icon: const Icon(
         Icons.link,
         size: 25,
-        color: Constants.BACKGROUND_COLOR,
+        color: Constants.kBackgroundColor,
       ),
       obscureText: false,
       validator: (str) {
@@ -250,6 +255,7 @@ class _AddUserState extends State<AddUser> {
       },
     );
   }
+
   inputUrlTelegram() {
     return InputTextWrap(
       label: "Link Telegram...",
@@ -257,7 +263,7 @@ class _AddUserState extends State<AddUser> {
       icon: const Icon(
         Icons.link,
         size: 25,
-        color: Constants.BACKGROUND_COLOR,
+        color: Constants.kBackgroundColor,
       ),
       obscureText: false,
       validator: (str) {
@@ -269,34 +275,79 @@ class _AddUserState extends State<AddUser> {
     );
   }
 
-  imagePicker(BuildContext context) {
-    return GestureDetector(
-      onTap: () {
-        PickImage.imagePicker(context).then((value) {
-          setState(() {
-            imagePath = value!.path;
-            // print(value);
-          });
+  Widget uploadImage(String? Function(XFile?)? validator) {
+    return FormField<XFile>(
+        validator: validator,
+        builder: (formFieldState) {
+          return Container(
+              // width: MediaQuery.of(context).size.width * 0.07,
+              child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              GestureDetector(
+                onTap: () {
+                  PickImage.imagePicker(context).then((value) {
+                    setState(() {
+                      imagePath = value!.path;
+                      // print(value);
+                    });
+                  });
+                },
+                child: CircleAvatar(
+                  maxRadius: 50,
+                  backgroundColor: Colors.grey.withOpacity(0.1),
+                  child: const Icon(
+                    Icons.camera_alt_outlined,
+                    color: Constants.kBackgroundColor,
+                  ),
+                ),
+              ),
+              const Padding(padding: EdgeInsets.symmetric(vertical: 5.0)),
+              if (formFieldState.hasError)
+                Text(
+                  formFieldState.errorText!,
+                  style:const TextStyle(fontSize: 14, color: Colors.red),
+                ),
+            ],
+          ));
         });
-      },
-      child: CircleAvatar(
-        maxRadius: 50,
-        backgroundColor: Colors.grey.withOpacity(0.1),
-        child: const Icon(
-          Icons.camera_alt_outlined,
-          color: Constants.BACKGROUND_COLOR,
-        ),
-      ),
-    );
   }
 
+  // imagePicker(BuildContext context) {
+  //   return GestureDetector(
+  //     onTap: () {
+  //       PickImage.imagePicker(context).then((value) {
+  //         setState(() {
+  //           imagePath = value!.path;
+  //           // print(value);
+  //         });
+  //       });
+  //     },
+  //     child: CircleAvatar(
+  //       maxRadius: 50,
+  //       backgroundColor: Colors.grey.withOpacity(0.1),
+  //       child: const Icon(
+  //         Icons.camera_alt_outlined,
+  //         color: Constants.kBackgroundColor,
+  //       ),
+  //     ),
+  //   );
+  // }
+
   buttonAddUser() {
-    // String? url = imageFile != null ? imageFile!.path : null;
     return RounedButton(
         onPress: () {
           if (_key.currentState!.validate()) {
-            addTodo(name.text, phone.text, address.text, imagePath!, job.text,
-                    age.text, description.text,urlFacebook.text,urlTelegram.text)
+            addTodo(
+                    name.text,
+                    phone.text,
+                    address.text,
+                    imagePath!,
+                    job.text,
+                    age.text,
+                    description.text,
+                    urlFacebook.text,
+                    urlTelegram.text)
                 .then((value) {
               AllertDropdown.success("Add user success");
               clear();
@@ -306,19 +357,27 @@ class _AddUserState extends State<AddUser> {
         text: "Add User");
   }
 
-  Future addTodo(String name, String phone, String address, String imgUrl,
-      String job, String age, String description, String ? urlFacebook, String ?urlTelegram ) async {
-    final userProfile =
-        UserProfile(name, phone, address, imgUrl, job, age, description,urlFacebook,urlTelegram)
-          ..name = name
-          ..phone = phone
-          ..address = address
-          ..imgUrl = imgUrl
-          ..job = job
-          ..age = age
-          ..description = description
-          ..urlFacebook = urlFacebook
-          ..urlTelegram = urlTelegram;
+  Future addTodo(
+      String name,
+      String phone,
+      String address,
+      String imgUrl,
+      String job,
+      String age,
+      String description,
+      String urlFacebook,
+      String urlTelegram) async {
+    final userProfile = UserProfile(name, phone, address, imgUrl, job, age,
+        description, urlFacebook, urlTelegram)
+      ..name = name
+      ..phone = phone
+      ..address = address
+      ..imgUrl = imgUrl
+      ..job = job
+      ..age = age
+      ..description = description
+      ..urlFacebook = urlFacebook
+      ..urlTelegram = urlTelegram;
 
     final box = Boxes.getTodos();
     await box.add(userProfile);

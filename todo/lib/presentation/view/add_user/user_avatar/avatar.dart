@@ -1,6 +1,8 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 
+import '../../../../config/constants/constants.dart';
+
 class Avatar extends StatelessWidget {
   double height;
   double width;

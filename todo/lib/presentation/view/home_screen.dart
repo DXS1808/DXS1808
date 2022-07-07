@@ -30,7 +30,7 @@ class _HomeScreenState extends State<HomeScreen> {
             "Todo List",
           ),
           automaticallyImplyLeading: false,
-          backgroundColor: Constants.BACKGROUND_COLOR,
+          backgroundColor: Constants.kBackgroundColor,
           actions: [
             IconButton(
               icon: const Icon(
@@ -55,6 +55,9 @@ class _HomeScreenState extends State<HomeScreen> {
                               child: SizedBox(
                                 width: 280,
                                 child: AlertDialog(
+                                  shape:const RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.all(Radius.circular(10.0))
+                                  ),
                                   contentPadding: const EdgeInsets.all(10.0),
                                   content: Column(
                                     crossAxisAlignment:
@@ -135,7 +138,7 @@ class _HomeScreenState extends State<HomeScreen> {
         padding: const EdgeInsets.all(10.0),
         decoration: BoxDecoration(
             borderRadius: const BorderRadius.all(Radius.circular(20.0)),
-            color: Constants.BACKGROUND_COLOR.withOpacity(0.6)),
+            color: Constants.kBackgroundColor.withOpacity(0.6)),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: const [

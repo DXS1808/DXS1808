@@ -7,7 +7,8 @@ import 'package:todo/firebase_options.dart';
 import 'package:todo/model/user_profile.dart';
 import 'package:todo/presentation/view/home_screen.dart';
 import 'package:todo/presentation/view/splash.dart';
-import 'package:todo/router/router.dart';
+
+import 'config/router/router.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

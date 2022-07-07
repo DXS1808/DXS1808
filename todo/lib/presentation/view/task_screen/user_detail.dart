@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import '../../../config/constants/constants.dart';
 import '../../../model/user_profile.dart';
@@ -18,10 +17,10 @@ class UserDetail extends StatelessWidget {
           title: const Text(
             "User Profile",
             style: TextStyle(
-              fontFamily: Constants.FONTFAMILY,
+              fontFamily: Constants.kFontFamily,
             ),
           ),
-          backgroundColor: Constants.BACKGROUND_COLOR,
+          backgroundColor: Constants.kBackgroundColor,
         ),
         body: SingleChildScrollView(
           child: Column(
@@ -44,7 +43,7 @@ class UserDetail extends StatelessWidget {
                                 0, 3), // changes position of shadow
                           ),
                         ],
-                        color: Constants.BACKGROUND_COLOR.withOpacity(0.8)),
+                        color: Constants.kBackgroundColor.withOpacity(0.8)),
                   ),
                   Positioned(
                     child: Container(
@@ -65,7 +64,7 @@ class UserDetail extends StatelessWidget {
                             userProfile.name,
                             style: const TextStyle(
                               fontWeight: FontWeight.w700,
-                              fontFamily: Constants.FONTFAMILY,
+                              fontFamily: Constants.kFontFamily,
                             ),
                           ),
                           Container(
@@ -76,7 +75,7 @@ class UserDetail extends StatelessWidget {
                                 const Icon(
                                   Icons.location_on_outlined,
                                   size: 20,
-                                  color: Constants.BACKGROUND_COLOR,
+                                  color: Constants.kBackgroundColor,
                                 ),
                                 const SizedBox(
                                   width: 8.0,
@@ -84,7 +83,7 @@ class UserDetail extends StatelessWidget {
                                 Text(
                                   userProfile.address,
                                   style: const TextStyle(
-                                      fontFamily: Constants.FONTFAMILY),
+                                      fontFamily: Constants.kFontFamily),
                                 )
                               ],
                             ),
@@ -97,7 +96,7 @@ class UserDetail extends StatelessWidget {
                                 const Icon(
                                   Icons.phone,
                                   size: 20,
-                                  color: Constants.BACKGROUND_COLOR,
+                                  color: Constants.kBackgroundColor,
                                 ),
                                 const SizedBox(
                                   width: 8.0,
@@ -105,7 +104,7 @@ class UserDetail extends StatelessWidget {
                                 Text(
                                   userProfile.phone,
                                   style: const TextStyle(
-                                      fontFamily: Constants.FONTFAMILY),
+                                      fontFamily: Constants.kFontFamily),
                                 )
                               ],
                             ),
@@ -121,7 +120,8 @@ class UserDetail extends StatelessWidget {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    if (userProfile.urlFacebook != null)
+                    if (userProfile.urlFacebook != null &&
+                        userProfile.urlFacebook!.isNotEmpty)
                       GestureDetector(
                         onTap: () {
                           MaterialPageRoute webView = MaterialPageRoute(
@@ -132,13 +132,14 @@ class UserDetail extends StatelessWidget {
                         child: const Icon(
                           Icons.facebook,
                           size: 40,
-                          color: Constants.BACKGROUND_COLOR,
+                          color: Constants.kBackgroundColor,
                         ),
                       ),
                     const SizedBox(
                       width: 20,
                     ),
-                    if (userProfile.urlTelegram != null)
+                    if (userProfile.urlTelegram != null &&
+                        userProfile.urlTelegram!.isNotEmpty)
                       GestureDetector(
                         onTap: () {
                           MaterialPageRoute webView = MaterialPageRoute(
@@ -149,7 +150,7 @@ class UserDetail extends StatelessWidget {
                         child: const Icon(
                           Icons.telegram,
                           size: 40,
-                          color: Constants.BACKGROUND_COLOR,
+                          color: Constants.kBackgroundColor,
                         ),
                       )
                   ],
@@ -175,13 +176,13 @@ class UserDetail extends StatelessWidget {
                   style: TextStyle(
                       fontSize: 18,
                       fontWeight: FontWeight.w400,
-                      fontFamily: Constants.FONTFAMILY),
+                      fontFamily: Constants.kFontFamily),
                 ),
               ),
               const Divider(
                 endIndent: 10.0,
                 indent: 10.0,
-                color: Constants.BACKGROUND_COLOR,
+                color: Constants.kBackgroundColor,
               ),
               if (userProfile.description != null)
                 Card(
@@ -196,8 +197,8 @@ class UserDetail extends StatelessWidget {
                         userProfile.description!,
                         textAlign: TextAlign.center,
                         style: const TextStyle(
-                            fontFamily: Constants.FONTFAMILY,
-                            fontWeight: Constants.FONTWEIGHT),
+                            fontFamily: Constants.kFontFamily,
+                            fontWeight: Constants.kFontWeight),
                       ),
                     ))
             ],
@@ -211,31 +212,16 @@ class UserDetail extends StatelessWidget {
         Text(
           title,
           style: const TextStyle(
-              fontFamily: Constants.FONTFAMILY,
+              fontFamily: Constants.kFontFamily,
               fontWeight: FontWeight.w100,
               fontSize: 14),
         ),
         Text(
           content,
           style:
-              const TextStyle(fontFamily: Constants.FONTFAMILY, fontSize: 16),
+              const TextStyle(fontFamily: Constants.kFontFamily, fontSize: 16),
         )
       ],
     );
   }
-
-// Widget item(String field, Widget icon) {
-//   return Row(
-//     children: [
-//       icon,
-//       const SizedBox(
-//         width: 10.0,
-//       ),
-//       Text(
-//         field,
-//         style: const TextStyle(fontFamily: Constants.fontFamily),
-//       )
-//     ],
-//   );
-// }
 }

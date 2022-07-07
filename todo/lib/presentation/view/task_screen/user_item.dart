@@ -29,7 +29,7 @@ class _UserItemState extends State<UserItem> {
             MaterialStateProperty.resolveWith<Color>(
                 (Set<MaterialState> states) {
           if (states.contains(MaterialState.pressed)) {
-            return Constants.BACKGROUND_COLOR.withOpacity(0.2);
+            return Constants.kBackgroundColor.withOpacity(0.2);
           }
           return Colors.white; // Use the component's default.
         }), foregroundColor: MaterialStateProperty.resolveWith<Color>(
@@ -83,7 +83,7 @@ class _UserItemState extends State<UserItem> {
                         Navigator.push(context, _createRoute());
                       },
                       child: const Icon(Icons.edit,
-                          color: Constants.BACKGROUND_COLOR, size: 20),
+                          color: Constants.kBackgroundColor, size: 20),
                     ),
                   ),
                   const SizedBox(
@@ -99,11 +99,11 @@ class _UserItemState extends State<UserItem> {
                             content: "Do you want delete item?",
                             press: () {
                               deleteTodo(widget.userProfile);
-                              Navigator.of(context,rootNavigator: true).pop();
+                              Navigator.of(context, rootNavigator: true).pop();
                             }).show(context);
                       },
                       child: const Icon(Icons.delete,
-                          color: Constants.BACKGROUND_COLOR, size: 20),
+                          color: Constants.kBackgroundColor, size: 20),
                     ),
                   ),
                 ],
