@@ -3,9 +3,10 @@ import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:todo/constants/constants.dart';
 
-import '../../allert_dropdown/allert_dopdown.dart';
+import '../../../config/constants/constants.dart';
+import '../allert_dropdown/allert_dopdown.dart';
+
 
 class PickImage {
   static Future<XFile?> imagePicker(BuildContext context) async {

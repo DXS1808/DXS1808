@@ -1,13 +1,14 @@
-import 'dart:io';
+
 import 'package:flutter/material.dart';
-import 'package:todo/allert_dropdown/allert_dopdown.dart';
-import 'package:todo/component/pick_image/pick_image.dart';
-import 'package:todo/component/rouned_button.dart';
-import 'package:todo/view/add_user/user_avatar/avatar.dart';
+import '../../../config/constants/constants.dart';
+import '../../../data_sources/local_storage/boxes.dart';
+import '../../../model/user_profile.dart';
+import '../../component/allert_dropdown/allert_dopdown.dart';
 import '../../component/input_text_wrap.dart';
-import '../../constants/constants.dart';
-import '../../local_storage/boxes.dart';
-import '../../model/user_profile.dart';
+import '../../component/pick_image/pick_image.dart';
+import '../../component/rouned_button.dart';
+import 'user_avatar/avatar.dart';
+
 
 class AddUser extends StatefulWidget {
   @override
@@ -25,6 +26,8 @@ class _AddUserState extends State<AddUser> {
 
   TextEditingController age = TextEditingController();
   TextEditingController description = TextEditingController();
+  TextEditingController urlFacebook = TextEditingController();
+  TextEditingController urlTelegram = TextEditingController();
 
   final GlobalKey<FormState> _key = GlobalKey<FormState>();
 
@@ -102,6 +105,14 @@ class _AddUserState extends State<AddUser> {
                     height: 10.0,
                   ),
                   inputDescription(),
+                  const SizedBox(
+                    height: 10.0,
+                  ),
+                  inputUrlFacebook(),
+                  const SizedBox(
+                    height: 10.0,
+                  ),
+                  inputUrlTelegram(),
                   const SizedBox(height: 30.0),
                   buttonAddUser()
                 ],
@@ -205,7 +216,7 @@ class _AddUserState extends State<AddUser> {
 
   inputDescription() {
     return InputTextWrap(
-      label: "Description...",
+      label: "Tell Us About Yourself ...",
       controller: description,
       icon: const Icon(
         Icons.edit_outlined,
@@ -218,6 +229,42 @@ class _AddUserState extends State<AddUser> {
           return "Description is required";
         }
         return null;
+      },
+    );
+  }
+  inputUrlFacebook() {
+    return InputTextWrap(
+      label: "Link Facebook...",
+      controller: urlFacebook,
+      icon: const Icon(
+        Icons.link,
+        size: 25,
+        color: Constants.BACKGROUND_COLOR,
+      ),
+      obscureText: false,
+      validator: (str) {
+        // if (str!.isEmpty) {
+        //   return "Description is required";
+        // }
+        // return null;
+      },
+    );
+  }
+  inputUrlTelegram() {
+    return InputTextWrap(
+      label: "Link Telegram...",
+      controller: urlTelegram,
+      icon: const Icon(
+        Icons.link,
+        size: 25,
+        color: Constants.BACKGROUND_COLOR,
+      ),
+      obscureText: false,
+      validator: (str) {
+        // if (str!.isEmpty) {
+        //   return "Description is required";
+        // }
+        // return null;
       },
     );
   }
@@ -249,7 +296,7 @@ class _AddUserState extends State<AddUser> {
         onPress: () {
           if (_key.currentState!.validate()) {
             addTodo(name.text, phone.text, address.text, imagePath!, job.text,
-                    age.text, description.text)
+                    age.text, description.text,urlFacebook.text,urlTelegram.text)
                 .then((value) {
               AllertDropdown.success("Add user success");
               clear();
@@ -260,16 +307,18 @@ class _AddUserState extends State<AddUser> {
   }
 
   Future addTodo(String name, String phone, String address, String imgUrl,
-      String job, String age, String description) async {
+      String job, String age, String description, String ? urlFacebook, String ?urlTelegram ) async {
     final userProfile =
-        UserProfile(name, phone, address, imgUrl, job, age, description)
+        UserProfile(name, phone, address, imgUrl, job, age, description,urlFacebook,urlTelegram)
           ..name = name
           ..phone = phone
           ..address = address
           ..imgUrl = imgUrl
           ..job = job
           ..age = age
-          ..description = description;
+          ..description = description
+          ..urlFacebook = urlFacebook
+          ..urlTelegram = urlTelegram;
 
     final box = Boxes.getTodos();
     await box.add(userProfile);

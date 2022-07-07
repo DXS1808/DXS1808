@@ -1,13 +1,13 @@
-import 'dart:io';
+
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:todo/allert_dropdown/allert_dopdown.dart';
-import 'package:todo/component/pick_image/pick_image.dart';
-import 'package:todo/component/rouned_button.dart';
-import 'package:todo/view/add_user/user_avatar/avatar.dart';
+import '../../../config/constants/constants.dart';
+import '../../../model/user_profile.dart';
+import '../../component/allert_dropdown/allert_dopdown.dart';
 import '../../component/input_text_wrap.dart';
-import '../../constants/constants.dart';
-import '../../model/user_profile.dart';
+import '../../component/pick_image/pick_image.dart';
+import '../../component/rouned_button.dart';
+import 'user_avatar/avatar.dart';
+
 
 class TodoUpdate extends StatefulWidget {
   UserProfile userProfile;
@@ -29,6 +29,9 @@ class _TodoUpdateState extends State<TodoUpdate> {
   TextEditingController age = TextEditingController();
   TextEditingController description = TextEditingController();
 
+  TextEditingController urlFacebook = TextEditingController();
+  TextEditingController urlTelegram = TextEditingController();
+
 
   final GlobalKey<FormState> _key = GlobalKey<FormState>();
 
@@ -43,6 +46,12 @@ class _TodoUpdateState extends State<TodoUpdate> {
     age.text = widget.userProfile.age;
     if(widget.userProfile.description != null){
       description.text = widget.userProfile.description!;
+    }
+    if(widget.userProfile.urlFacebook != null) {
+      urlFacebook.text = widget.userProfile.urlFacebook!;
+    }
+    if(widget.userProfile.urlTelegram != null) {
+      urlTelegram.text = widget.userProfile.urlTelegram!;
     }
     // imageFile = widget.todoList.imgUrl;
     // TODO: implement initState
@@ -76,9 +85,8 @@ class _TodoUpdateState extends State<TodoUpdate> {
                           right: 0,
                           child: IconButton(
                             icon: const Icon(
-                              Icons.camera_alt_outlined,
+                              Icons.camera_alt,
                               size: 20,
-                              color: Constants.BACKGROUND_COLOR,
                             ),
                             onPressed: () {
                               PickImage.imagePicker(context).then((value) {
@@ -114,6 +122,14 @@ class _TodoUpdateState extends State<TodoUpdate> {
                     height: 10.0,
                   ),
                   inputDescription(),
+                  const SizedBox(
+                    height: 10.0,
+                  ),
+                  inputUrlFacebook(),
+                  const SizedBox(
+                    height: 10.0,
+                  ),
+                  inputUrlTelegram(),
                   const SizedBox(height: 30.0),
                   buttonUpdate(context),
                 ],
@@ -194,7 +210,7 @@ class _TodoUpdateState extends State<TodoUpdate> {
   }
   inputDescription() {
     return InputTextWrap(
-      label: "Description...",
+      label: "Tell Us About Yourself ...",
       controller: description,
       icon: const Icon(
         Icons.edit_outlined,
@@ -229,12 +245,48 @@ class _TodoUpdateState extends State<TodoUpdate> {
       },
     );
   }
+  inputUrlFacebook() {
+    return InputTextWrap(
+      label: "Link Facebook...",
+      controller: urlFacebook,
+      icon: const Icon(
+        Icons.link,
+        size: 25,
+        color: Constants.BACKGROUND_COLOR,
+      ),
+      obscureText: false,
+      validator: (str) {
+        // if (str!.isEmpty) {
+        //   return "Description is required";
+        // }
+        // return null;
+      },
+    );
+  }
+  inputUrlTelegram() {
+    return InputTextWrap(
+      label: "Link Telegram...",
+      controller: urlTelegram,
+      icon: const Icon(
+        Icons.link,
+        size: 25,
+        color: Constants.BACKGROUND_COLOR,
+      ),
+      obscureText: false,
+      validator: (str) {
+        // if (str!.isEmpty) {
+        //   return "Description is required";
+        // }
+        // return null;
+      },
+    );
+  }
 
   buttonUpdate(BuildContext context) {
     return RounedButton(
         onPress: () {
           editTodo(widget.userProfile, name.text, phone.text, address.text,
-                  widget.userProfile.imgUrl, job.text,age.text,description.text)
+                  widget.userProfile.imgUrl, job.text,age.text,description.text,urlFacebook.text,urlTelegram.text)
               .then((value) {
             AllertDropdown.success("Update Success");
             Navigator.pushNamed(context, "/homeScreen");
@@ -244,7 +296,7 @@ class _TodoUpdateState extends State<TodoUpdate> {
   }
 
   Future editTodo(UserProfile userProfile, String name, String phone, String address,
-      String imgUrl, String job,String age,String description) async {
+      String imgUrl, String job,String age,String description, String urlFacebook, String urlTelegram ) async {
     userProfile.name = name;
     userProfile.phone = phone;
     userProfile.address = address;
@@ -252,6 +304,8 @@ class _TodoUpdateState extends State<TodoUpdate> {
     userProfile.job = job;
     userProfile.age = age;
     userProfile.description = description;
+    userProfile.urlFacebook = urlFacebook;
+    userProfile.urlTelegram = urlTelegram;
     await userProfile.save();
   }
 }

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:todo/constants/constants.dart';
+
+import '../../config/constants/constants.dart';
+
 
 class InputTextWrap extends StatelessWidget {
   final String label;

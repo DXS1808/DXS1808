@@ -1,13 +1,12 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/adapters.dart';
-import 'package:todo/allert_dropdown/allert_dopdown.dart';
-import 'package:todo/component/input_text_wrap.dart';
-import '../../local_storage/boxes.dart';
+import '../../component/input_text_wrap.dart';
+import '../../../config/constants/constants.dart';
+import '../../../router/router.dart';
+import '../../component/allert_dropdown/allert_dopdown.dart';
+import '../../component/input_text_wrap.dart';
 import '../../component/rouned_button.dart';
-import '../../constants/constants.dart';
-import '../../model/account.dart';
-import '../../router/router.dart';
 
 class LoginScreen extends StatefulWidget {
   @override
@@ -145,12 +144,10 @@ class _LoginScreenState extends State<LoginScreen> {
         obscureText: _passwordVisible,
         iconSuffix: GestureDetector(
           child: Icon(
-            // Based on passwordVisible state choose the icon
             _passwordVisible ? Icons.visibility_off : Icons.visibility,
             color: Constants.BACKGROUND_COLOR,
           ),
           onTap: () {
-            // Update the state i.e. toogle the state of passwordVisible variable
             setState(() {
               _passwordVisible = !_passwordVisible;
             });

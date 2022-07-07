@@ -1,10 +1,10 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:todo/allert_dropdown/allert_dopdown.dart';
-import 'package:todo/component/input_text_wrap.dart';
-import 'package:todo/constants/constants.dart';
+import '../../../config/constants/constants.dart';
+import '../../../router/router.dart';
+import '../../component/allert_dropdown/allert_dopdown.dart';
+import '../../component/input_text_wrap.dart';
 import '../../component/rouned_button.dart';
-import '../../router/router.dart';
 
 class SignUpScreen extends StatefulWidget {
   @override
@@ -181,12 +181,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
         obscureText: passwordVisibleConfirm,
         iconSuffix: GestureDetector(
           child: Icon(
-            // Based on passwordVisible state choose the icon
             passwordVisibleConfirm ? Icons.visibility_off : Icons.visibility,
             color: Constants.BACKGROUND_COLOR,
           ),
           onTap: () {
-            // Update the state i.e. toogle the state of passwordVisible variable
             setState(() {
               passwordVisibleConfirm = !passwordVisibleConfirm;
             });
@@ -205,12 +203,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
   }
 
   signUpButton(BuildContext context) {
-    // User user = User(email.value.text,password.value.text);
-    // users.add(user);
-
     return RounedButton(
       onPress: () {
-        // _key.currentState!.save();
         if (_key.currentState!.validate()) {
           registerUser();
           // addUser(email.value.text, password.value.text).then((value) {
@@ -248,14 +242,4 @@ class _SignUpScreenState extends State<SignUpScreen> {
     }
   }
 
-// void editUser(){
-//
-// }
-
-// @override
-// void dispose() {
-//   // TODO: implement dispose
-//   Hive.close();
-//   super.dispose();
-// }
 }

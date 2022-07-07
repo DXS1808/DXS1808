@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 
-import '../constants/constants.dart';
+import '../../config/constants/constants.dart';
+
 
 class TextItem extends StatelessWidget {
   String content;

@@ -1,6 +1,7 @@
 
 import 'package:flutter/material.dart';
-import 'package:todo/constants/constants.dart';
+
+import '../../config/constants/constants.dart';
 
 class ShowDialog {
   String content;

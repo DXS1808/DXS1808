@@ -2,11 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/adapters.dart';
 import 'package:splashscreen/splashscreen.dart';
-import 'package:todo/constants/constants.dart';
-import 'package:todo/view/login/login_screen.dart';
 
-import '../model/account.dart';
-import '../model/user_profile.dart';
+import '../../config/constants/constants.dart';
+import 'login/login_screen.dart';
+
 
 class Splash extends StatefulWidget {
   const Splash({Key? key}) : super(key: key);

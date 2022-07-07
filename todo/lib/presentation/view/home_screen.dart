@@ -1,12 +1,11 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hive_flutter/adapters.dart';
-import 'package:todo/component/dialog.dart';
-import 'package:todo/constants/constants.dart';
-import 'package:todo/view/task_screen/user_list.dart';
-import '../local_storage/boxes.dart';
-import '../model/user_profile.dart';
+import 'package:todo/presentation/view/task_screen/user_list.dart';
+import '../../config/constants/constants.dart';
+import '../../data_sources/local_storage/boxes.dart';
+import '../../model/user_profile.dart';
+import '../component/dialog.dart';
 import 'add_user/add_user.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -129,7 +128,6 @@ class _HomeScreenState extends State<HomeScreen> {
     Size size = MediaQuery.of(context).size;
     return GestureDetector(
       onTap: () {
-        print(Boxes.todos);
         Navigator.push(context, _createRoute());
       },
       child: Container(

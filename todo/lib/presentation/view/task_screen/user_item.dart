@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:todo/component/text_item.dart';
-import 'package:todo/constants/constants.dart';
 import 'package:todo/model/user_profile.dart';
-import 'package:todo/view/add_user/user_avatar/avatar.dart';
-import 'package:todo/view/task_screen/user_detail.dart';
-import 'package:todo/view/add_user/update_user.dart';
-
+import 'package:todo/presentation/view/task_screen/user_detail.dart';
+import '../../../config/constants/constants.dart';
 import '../../component/dialog.dart';
+import '../../component/text_item.dart';
+import '../add_user/update_user.dart';
+import '../add_user/user_avatar/avatar.dart';
 
 class UserItem extends StatefulWidget {
   UserProfile userProfile;

@@ -1,6 +1,7 @@
 import 'package:hive/hive.dart';
-import '../model/user_profile.dart';
-import '../model/account.dart';
+
+import '../../model/account.dart';
+import '../../model/user_profile.dart';
 
 class Boxes {
   static Box<Account> getUsers() => Hive.box<Account>('account');

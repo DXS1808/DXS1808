@@ -18,6 +18,10 @@ class UserProfile extends HiveObject {
   String age;
   @HiveField(6)
   String ? description;
+  @HiveField(7)
+  String ? urlFacebook;
+  @HiveField(8)
+  String ? urlTelegram;
 
-  UserProfile(this.name,this.phone,this.address,this.imgUrl,this.job,this.age,this.description);
+  UserProfile(this.name,this.phone,this.address,this.imgUrl,this.job,this.age,this.description,this.urlFacebook,this.urlTelegram);
 }
