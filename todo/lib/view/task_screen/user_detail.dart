@@ -17,7 +17,7 @@ class UserDetail extends StatelessWidget {
         appBar: AppBar(
           centerTitle: true,
           title: const Text(
-            "User Detail",
+            "User Profile",
             style: TextStyle(
               fontFamily: Constants.FONTFAMILY,
             ),

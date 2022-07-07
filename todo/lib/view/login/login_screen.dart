@@ -32,10 +32,7 @@ class _LoginScreenState extends State<LoginScreen> {
         FocusScope.of(context).unfocus();
       },
       child: Material(
-        child: ValueListenableBuilder<Box<Account>>(
-          valueListenable: Boxes.getUsers().listenable(),
-          builder: (context, box, _) {
-            return Form(
+        child: Form(
                 key: _key,
                 child: Container(
                   padding: const EdgeInsets.symmetric(
@@ -46,10 +43,6 @@ class _LoginScreenState extends State<LoginScreen> {
                             "assets/login.png",
                           ),
                           fit: BoxFit.cover)
-                    // gradient: LinearGradient(colors: [
-                    //   Color(0xff79D0C0),
-                    //   Color(0xffFFFFFF),
-                    // ], begin: Alignment.topLeft, end: Alignment.bottomRight)
                   ),
                   child: SingleChildScrollView(
                     child: Column(
@@ -68,15 +61,15 @@ class _LoginScreenState extends State<LoginScreen> {
                         const SizedBox(
                           height: 100,
                         ),
-                        inputUserName(box.values.toList()),
+                        inputUserName(),
                         const SizedBox(
                           height: 10.0,
                         ),
-                        inputPassword(box.values.toList()),
+                        inputPassword(),
                         const SizedBox(
                           height: 50.0,
                         ),
-                        loginButton(box.values.toList(), context),
+                        loginButton(context),
                         const SizedBox(height: 20.0),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
@@ -107,14 +100,12 @@ class _LoginScreenState extends State<LoginScreen> {
                       ],
                     ),
                   ),
-                ));
-          },
-        ),
+                ))
       ),
     );
   }
 
-  inputUserName(List<Account> users) {
+  inputUserName() {
     var input = RegExp('[a-z0-9]+@[a-z]+\.[a-z]{2,3}');
     return InputTextWrap(
         label: "Email...",
@@ -142,7 +133,7 @@ class _LoginScreenState extends State<LoginScreen> {
         });
   }
 
-  inputPassword(List<Account> users) {
+  inputPassword() {
     return InputTextWrap(
         label: "Password...",
         controller: password,
@@ -187,18 +178,15 @@ class _LoginScreenState extends State<LoginScreen> {
         });
   }
 
-  loginButton(List<Account> users, BuildContext context) {
+  loginButton(BuildContext context) {
     Size size = MediaQuery
         .of(context)
         .size;
     return RounedButton(
       onPress: () {
-              getUser();
+              // getUser();
         if (_key.currentState!.validate()) {
           signInUser(context).then((value) {
-           AllertDropdown.success("Login Success");
-          }).onError((error, stackTrace){
-            AllertDropdown.error("Login failed. Email or password is wrong");
           });
           // for (int i = 0; i <= users.length - 1; i++) {
           //   if (users[i].email == email.value.text &&
@@ -213,24 +201,24 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 
-  void getUser() async{
-   try{
-     if(FirebaseAuth.instance.currentUser != null){
-       print(FirebaseAuth.instance.currentUser!.email);
-     }
-   }catch(e){
-     print(e);
-   }
-  }
-
+  // void getUser() async{
+  //  try{
+  //    if(FirebaseAuth.instance.currentUser != null){
+  //      print(FirebaseAuth.instance.currentUser!.email);
+  //    }
+  //  }catch(e){
+  //    print(e);
+  //  }
+  // }
+  //
   Future<void> signInUser(BuildContext context) async {
     try {
-     await FirebaseAuth.instance
+      UserCredential userCredential = await FirebaseAuth.instance
           .signInWithEmailAndPassword(email: email.text, password: password.text);
-      if (!mounted) return;
+      AllertDropdown.success("Login Success");
       Navigator.pushNamed(context, AppRouter.homeScreen);
-    }on FirebaseAuthException catch (e){
-      print(e);
+    } catch (e){
+      AllertDropdown.error(e.toString());
     }
   }
 

@@ -21,15 +21,14 @@ class AllertDropDown extends StatelessWidget {
   }
 
   Widget snackBar(Widget icon, String text, Color color){
-    return Container(
-        child: Row(
-          children: [
-            icon,
-            Text(text,
-              style: TextStyle(color: color),
-            ),
-          ],
-        ));
+    return Row(
+      children: [
+        icon,
+        Text(text,
+          style: TextStyle(color: color),
+        ),
+      ],
+    );
   }
 }
 

@@ -1,7 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:hive/hive.dart';
+import 'package:hive_flutter/adapters.dart';
 import 'package:splashscreen/splashscreen.dart';
 import 'package:todo/constants/constants.dart';
 import 'package:todo/view/login/login_screen.dart';
+
+import '../model/account.dart';
+import '../model/user_profile.dart';
 
 class Splash extends StatefulWidget {
   const Splash({Key? key}) : super(key: key);
@@ -11,6 +16,18 @@ class Splash extends StatefulWidget {
 }
 
 class _SplashState extends State<Splash> {
+
+  @override
+  void initState() {
+    // WidgetsFlutterBinding.ensureInitialized();
+    // await Hive.initFlutter();
+    // Hive.registerAdapter(AccountAdapter());
+    // Hive.registerAdapter(UserProfileAdapter());
+    // await Hive.openBox<UserProfile>("usersProfile");
+    // await Hive.openBox<Account>("account");
+    // TODO: implement initState
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
     return SplashScreen(

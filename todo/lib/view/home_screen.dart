@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hive_flutter/adapters.dart';
+import 'package:todo/component/dialog.dart';
 import 'package:todo/constants/constants.dart';
 import 'package:todo/view/task_screen/user_list.dart';
 import '../local_storage/boxes.dart';
@@ -53,28 +54,45 @@ class _HomeScreenState extends State<HomeScreen> {
                               top: offset.dx - 10,
                               right: topOffset - 15,
                               child: SizedBox(
-                                width: 300,
+                                width: 280,
                                 child: AlertDialog(
-                                  contentPadding: const EdgeInsets.all(0),
+                                  contentPadding: const EdgeInsets.all(10.0),
                                   content: Column(
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
                                     children: [
                                       GestureDetector(
                                         onTap: () {},
-                                        child: const ListTile(
-                                          leading: Icon(Icons.person_pin),
-                                          title: Text("View Profile"),
-                                        ),
+                                        child: Row(
+                                           children: const [
+                                              Icon(Icons.person_pin,
+                                              size: 30,
+                                              ),
+                                              SizedBox(width: 10.0,),
+                                              Text("View Profile"),
+                                            ]
+                                        )
                                       ),
+                                      const SizedBox(height: 10.0,),
                                       GestureDetector(
                                         onTap: () {
-                                          logout();
+                                          ShowDialog(
+                                            content: 'Do you want sign out ?',
+                                            press: () {
+                                            logout();
+                                            Navigator.of(context,rootNavigator: true).pop();
+                                          },
+                                          ).show(context);
                                         },
-                                        child: const ListTile(
-                                          leading: Icon(Icons.logout),
-                                          title: Text("Log out"),
-                                        ),
+                                        child: Row(
+                                          children: const [
+                                              Icon(Icons.logout,
+                                              size: 30,
+                                              ),
+                                              SizedBox(width: 10.0,),
+                                              Text("Log out"),
+                                          ],
+                                        )
                                       )
                                     ],
                                   ),
@@ -103,9 +121,8 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   void logout() async {
-    await FirebaseAuth.instance
-        .signOut()
-        .then((value) => Navigator.pushNamed(context, "/login"));
+    await FirebaseAuth.instance.signOut();
+   Navigator.pushNamed(context, "/splash");
   }
 
   Widget addUser() {
@@ -161,4 +178,6 @@ class _HomeScreenState extends State<HomeScreen> {
       },
     );
   }
+
+
 }

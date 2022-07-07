@@ -1,12 +1,9 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:hive_flutter/adapters.dart';
 import 'package:todo/allert_dropdown/allert_dopdown.dart';
 import 'package:todo/component/input_text_wrap.dart';
 import 'package:todo/constants/constants.dart';
-import '../../local_storage/boxes.dart';
 import '../../component/rouned_button.dart';
-import '../../model/account.dart';
 import '../../router/router.dart';
 
 class SignUpScreen extends StatefulWidget {
@@ -42,15 +39,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
     Size size = MediaQuery
         .of(context)
         .size;
-    return Scaffold(
-        appBar: AppBar(
-          automaticallyImplyLeading: true,
-          backgroundColor: Constants.BACKGROUND_COLOR,
-        ),
-        body: ValueListenableBuilder<Box<Account>>(
-            valueListenable: Boxes.getUsers().listenable(),
-            builder: (context, box, _) {
-              return Form(
+    return Material(
+        child: Form(
                 key: _key,
                 child: Container(
                   padding: const EdgeInsets.symmetric(
@@ -66,9 +56,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   ),
                   child: SingleChildScrollView(
                     child: Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        SizedBox(height: size.height / 7,),
+                        SizedBox(height: size.height / 4,),
                         const Text(
                           "SignUp",
                           style: TextStyle(
@@ -79,7 +69,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         const SizedBox(
                           height: 60,
                         ),
-                        inputUserName(box.values.toList()),
+                        inputUserName(),
                         const SizedBox(
                           height: 10.0,
                         ),
@@ -89,21 +79,40 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         ),
                         conFirmPassword(),
                         const SizedBox(
-                          height: 50.0,
+                          height: 30.0,
                         ),
-                        signUpButton(context)
+                        signUpButton(context),
+                        const SizedBox(
+                          height: 15.0,
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            const Text('You have account ? '),
+                            GestureDetector(
+                              onTap: (){
+                                Navigator.pushNamed(context, "/login");
+                              },
+                              child : const Text(
+                                "Sign in",
+                                style:TextStyle(
+                                  color: Constants.BACKGROUND_COLOR,
+                                  decoration: TextDecoration.underline
+                                ) ,
+                              )
+                            )
+                          ],
+                        )
                       ],
                     ),
                   ),
                 ),
-              );
-            }
+              )
 
-        )
     );
   }
 
-  inputUserName(List<Account> users) {
+  inputUserName() {
     return InputTextWrap(
         label: "Email...",
         controller: email,
@@ -117,12 +126,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
           if (str!.isNotEmpty) {
             if (input.hasMatch(str) == false) {
               return "Wrong email format";
-            } else if (users.isNotEmpty) {
-              for (int i = 0; i <= users.length - 1; i++) {
-                if (users[i].email == str) {
-                  return "Email already exists";
-                }
-              }
             }
           } else {
             return "Email is required";
@@ -209,10 +212,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
       onPress: () {
         // _key.currentState!.save();
         if (_key.currentState!.validate()) {
-          registerUser().then((value) {
-            // addUser(email.value.text, password.value.text);
-            AllertDropdown.success("Sign up success");
-          });
+          registerUser();
           // addUser(email.value.text, password.value.text).then((value) {
           //   // blocUser.user(email.value.text, password.value.text);
           //   AllertDropdown.success("Sign up success");
@@ -225,27 +225,26 @@ class _SignUpScreenState extends State<SignUpScreen> {
       text: 'Sign up',
     );
   }
+  // Future addUser(String email, String password) async {
+  //   final user = Account(email, password)
+  //     ..email = email
+  //     ..password = password;
+  //
+  //   final box = Boxes.getUsers();
+  //   await box.add(user);
+  //   // print(box.add(user));
+  //   // box.put("password", password);
+  // }
 
-  Future addUser(String email, String password) async {
-    final user = Account(email, password)
-      ..email = email
-      ..password = password;
-
-    final box = Boxes.getUsers();
-    await box.add(user);
-    // print(box.add(user));
-    // box.put("password", password);
-  }
-
-  Future<void> registerUser() async {
+  Future registerUser() async {
     try {
      await FirebaseAuth.instance
           .createUserWithEmailAndPassword(
           email: email.value.text.trim(), password: password.value.text.trim());
-      if (!mounted) return;
+     AllertDropdown.success("Sign up success");
       Navigator.pushNamed(context, AppRouter.homeScreen);
-    }catch (e){
-      print(e);
+    } catch (e){
+      AllertDropdown.error(e.toString());
     }
   }
 
