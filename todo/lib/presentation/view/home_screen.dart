@@ -1,10 +1,13 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hive_flutter/adapters.dart';
+import 'package:todo/model/user_profile.dart';
+import 'package:todo/presentation/bloc/user_profile_cubit.dart';
+import 'package:todo/presentation/view/search_item/search_item.dart';
 import 'package:todo/presentation/view/task_screen/user_list.dart';
 import '../../config/constants/constants.dart';
 import '../../data_sources/local_storage/boxes.dart';
-import '../../model/user_profile.dart';
 import '../component/dialog.dart';
 import 'add_user/add_user.dart';
 
@@ -19,6 +22,7 @@ class _HomeScreenState extends State<HomeScreen> {
   TextEditingController name = TextEditingController();
   TextEditingController address = TextEditingController();
   TextEditingController phone = TextEditingController();
+  List<UserProfile> users = [];
 
   @override
   Widget build(BuildContext context) {
@@ -28,6 +32,14 @@ class _HomeScreenState extends State<HomeScreen> {
           centerTitle: true,
           title: const Text(
             "Todo List",
+          ),
+          leading: IconButton(
+            onPressed: (){
+              showSearch(context: context, delegate: SearchItem(users));
+            },
+            icon:const Icon(Icons.search,
+            size: 30,
+            ),
           ),
           automaticallyImplyLeading: false,
           backgroundColor: Constants.kBackgroundColor,
@@ -55,47 +67,53 @@ class _HomeScreenState extends State<HomeScreen> {
                               child: SizedBox(
                                 width: 280,
                                 child: AlertDialog(
-                                  shape:const RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.all(Radius.circular(10.0))
-                                  ),
+                                  shape: const RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.all(
+                                          Radius.circular(10.0))),
                                   contentPadding: const EdgeInsets.all(10.0),
                                   content: Column(
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
                                     children: [
                                       GestureDetector(
-                                        onTap: () {},
-                                        child: Row(
-                                           children: const [
-                                              Icon(Icons.person_pin,
+                                          onTap: () {},
+                                          child: Row(children: const [
+                                            Icon(
+                                              Icons.person_pin,
                                               size: 30,
-                                              ),
-                                              SizedBox(width: 10.0,),
-                                              Text("View Profile"),
-                                            ]
-                                        )
+                                            ),
+                                            SizedBox(
+                                              width: 10.0,
+                                            ),
+                                            Text("View Profile"),
+                                          ])),
+                                      const SizedBox(
+                                        height: 10.0,
                                       ),
-                                      const SizedBox(height: 10.0,),
                                       GestureDetector(
-                                        onTap: () {
-                                          ShowDialog(
-                                            content: 'Do you want sign out ?',
-                                            press: () {
-                                            logout();
-                                            Navigator.of(context,rootNavigator: true).pop();
+                                          onTap: () {
+                                            ShowDialog(
+                                              content: 'Do you want sign out ?',
+                                              press: () {
+                                                logout();
+                                                Navigator.of(context,
+                                                        rootNavigator: true)
+                                                    .pop();
+                                              },
+                                            ).show(context);
                                           },
-                                          ).show(context);
-                                        },
-                                        child: Row(
-                                          children: const [
-                                              Icon(Icons.logout,
-                                              size: 30,
+                                          child: Row(
+                                            children: const [
+                                              Icon(
+                                                Icons.logout,
+                                                size: 30,
                                               ),
-                                              SizedBox(width: 10.0,),
+                                              SizedBox(
+                                                width: 10.0,
+                                              ),
                                               Text("Log out"),
-                                          ],
-                                        )
-                                      )
+                                            ],
+                                          ))
                                     ],
                                   ),
                                 ),
@@ -114,17 +132,22 @@ class _HomeScreenState extends State<HomeScreen> {
               child: ValueListenableBuilder<Box<UserProfile>>(
                   valueListenable: Boxes.getTodos().listenable(),
                   builder: (context, todos, _) {
-                    return UserScreenList(todos.values.toList());
+                    users = todos.values.toList().reversed.toList();
+                    return UserScreenList(todos.values.toList().reversed.toList());
                   }),
             ),
-            Positioned(bottom: 10,left: size.width/3, child: addUser())
+            // child: BlocBuilder<BlocUser, List<UserProfile>>(
+            //     builder: (context, state) {
+            //   return UserScreenList(state);
+            // }),
+            Positioned(bottom: 10, left: size.width / 3, child: addUser())
           ],
         ));
   }
 
   void logout() async {
     await FirebaseAuth.instance.signOut();
-   Navigator.pushNamed(context, "/splash");
+    Navigator.pushNamed(context, "/splash");
   }
 
   Widget addUser() {
@@ -165,7 +188,11 @@ class _HomeScreenState extends State<HomeScreen> {
 
   Route _createRoute() {
     return PageRouteBuilder(
-      pageBuilder: (context, animation, secondaryAnimation) => AddUser(),
+      pageBuilder: (context, animation, secondaryAnimation) => const AddUser(),
+      // pageBuilder: (context, animation, secondaryAnimation) => BlocProvider(
+      //   create: (context) => BlocUser(),
+      //   child: const AddUser(),
+      // ),
       transitionsBuilder: (context, animation, secondaryAnimation, child) {
         const begin = Offset(0.0, 1.0);
         const end = Offset.zero;
@@ -179,6 +206,4 @@ class _HomeScreenState extends State<HomeScreen> {
       },
     );
   }
-
-
 }

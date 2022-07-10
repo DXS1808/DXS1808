@@ -1,12 +1,15 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_dropdown_alert/dropdown_alert.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:todo/firebase_options.dart';
 import 'package:todo/model/user_profile.dart';
+import 'package:todo/presentation/bloc/user_profile_cubit.dart';
 import 'package:todo/presentation/view/home_screen.dart';
 import 'package:todo/presentation/view/splash.dart';
+import 'package:path_provider/path_provider.dart' as path_provider;
 
 import 'config/router/router.dart';
 
@@ -14,6 +17,8 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
       options: DefaultFirebaseOptions.currentPlatform, name: "demo-auth");
+  // final appDocumentDirectory = await path_provider.getApplicationDocumentsDirectory();
+  // Hive.init(appDocumentDirectory.path);
   await Hive.initFlutter();
   Hive.registerAdapter(UserProfileAdapter());
   await Hive.openBox<UserProfile>("usersProfile");
@@ -29,6 +34,8 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
+
+
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
@@ -41,7 +48,13 @@ class _MyAppState extends State<MyApp> {
       builder: (context, child) => Stack(
         children: [child!, const DropdownAlert()],
       ),
-      home: const MainPage(),
+      home: const MainPage()
+      // home: MultiBlocProvider(
+      //   providers: [
+      //     BlocProvider(create: (BuildContext context) => BlocUser())
+      //   ],
+      //   child:const MainPage(),
+      // ),
     );
   }
 }

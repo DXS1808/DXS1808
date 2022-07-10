@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:todo/presentation/bloc/user_profile_cubit.dart';
 import '../../../config/constants/constants.dart';
 import '../../../data_sources/local_storage/boxes.dart';
 import '../../../model/user_profile.dart';
@@ -10,6 +12,8 @@ import '../../component/rouned_button.dart';
 import 'user_avatar/avatar.dart';
 
 class AddUser extends StatefulWidget {
+  const AddUser({Key? key}) : super(key: key);
+
   @override
   State<AddUser> createState() => _AddUserState();
 }
@@ -29,6 +33,7 @@ class _AddUserState extends State<AddUser> {
   TextEditingController urlTelegram = TextEditingController();
 
   final GlobalKey<FormState> _key = GlobalKey<FormState>();
+
 
   String? imagePath;
 
@@ -267,10 +272,6 @@ class _AddUserState extends State<AddUser> {
       ),
       obscureText: false,
       validator: (str) {
-        // if (str!.isEmpty) {
-        //   return "Description is required";
-        // }
-        // return null;
       },
     );
   }
@@ -280,7 +281,6 @@ class _AddUserState extends State<AddUser> {
         validator: validator,
         builder: (formFieldState) {
           return Container(
-              // width: MediaQuery.of(context).size.width * 0.07,
               child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
@@ -313,26 +313,6 @@ class _AddUserState extends State<AddUser> {
         });
   }
 
-  // imagePicker(BuildContext context) {
-  //   return GestureDetector(
-  //     onTap: () {
-  //       PickImage.imagePicker(context).then((value) {
-  //         setState(() {
-  //           imagePath = value!.path;
-  //           // print(value);
-  //         });
-  //       });
-  //     },
-  //     child: CircleAvatar(
-  //       maxRadius: 50,
-  //       backgroundColor: Colors.grey.withOpacity(0.1),
-  //       child: const Icon(
-  //         Icons.camera_alt_outlined,
-  //         color: Constants.kBackgroundColor,
-  //       ),
-  //     ),
-  //   );
-  // }
 
   buttonAddUser() {
     return RounedButton(
@@ -366,7 +346,7 @@ class _AddUserState extends State<AddUser> {
       String age,
       String description,
       String urlFacebook,
-      String urlTelegram) async {
+      String urlTelegram,) async {
     final userProfile = UserProfile(name, phone, address, imgUrl, job, age,
         description, urlFacebook, urlTelegram)
       ..name = name
@@ -379,10 +359,7 @@ class _AddUserState extends State<AddUser> {
       ..urlFacebook = urlFacebook
       ..urlTelegram = urlTelegram;
 
-    final box = Boxes.getTodos();
-    await box.add(userProfile);
-    // box.put("account",user);
-    // box.put("password", password);
+    await Boxes.getTodos().add(userProfile);
   }
 
   clear() {
@@ -392,6 +369,8 @@ class _AddUserState extends State<AddUser> {
     job.clear();
     age.clear();
     description.clear();
+    urlFacebook.clear();
+    urlTelegram.clear();
     setState(() {
       imagePath = null;
     });

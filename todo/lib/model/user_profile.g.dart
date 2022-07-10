@@ -26,6 +26,7 @@ class UserProfileAdapter extends TypeAdapter<UserProfile> {
       fields[6] as String?,
       fields[7] as String?,
       fields[8] as String?,
+      // fields[9] as bool,
     );
   }
 
@@ -51,6 +52,8 @@ class UserProfileAdapter extends TypeAdapter<UserProfile> {
       ..write(obj.urlFacebook)
       ..writeByte(8)
       ..write(obj.urlTelegram);
+      // ..writeByte(9)
+      // ..write(obj.checkbox);
   }
 
   @override
