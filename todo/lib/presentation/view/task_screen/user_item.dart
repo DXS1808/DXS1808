@@ -49,6 +49,7 @@ class _UserItemState extends State<UserItem> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   // Text(widget.todoList.imgUrl),
                   Avatar(60, 60, widget.userProfile.imgUrl),
@@ -58,14 +59,41 @@ class _UserItemState extends State<UserItem> {
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      TextItem(content: widget.userProfile.name),
+                      TextItem(
+                        content:
+                            "${widget.userProfile.name}, ${widget.userProfile.age}",
+                      ),
                       const SizedBox(
-                        height: 10.0,
+                        height: 5.0,
+                      ),
+                      Container(
+                        width: MediaQuery.of(context).size.width-155,
+                        child: TextItem(content: "${widget.userProfile.address}",
+                          maxLines: 1,
+                          textStyle: TextStyle(
+                            overflow: TextOverflow.ellipsis,
+                            color: Colors.grey.withOpacity(0.8),
+                            fontFamily: Constants.kFontFamily,
+                            fontSize: 12,
+                            fontWeight: Constants.kFontWeight,
+                          ),
+                        ),
+                      ),
+                      const SizedBox(
+                        height: 5.0,
                       ),
                       Row(
                         children: [
-                          TextItem(content: "${widget.userProfile.address}, "),
-                          TextItem(content: widget.userProfile.age)
+                          TextItem(
+                              content:
+                                  "${widget.userProfile.phone}",
+                          textStyle: TextStyle(
+                            color: Colors.grey.withOpacity(0.8),
+                            fontFamily: Constants.kFontFamily,
+                            fontSize: 12,
+                            fontWeight: Constants.kFontWeight,
+                          ),
+                          )
                         ],
                       )
                     ],
@@ -73,6 +101,7 @@ class _UserItemState extends State<UserItem> {
                 ],
               ),
               Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Tooltip(
                     richMessage: const TextSpan(
