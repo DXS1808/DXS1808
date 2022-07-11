@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 import '../../config/constants/constants.dart';
 
@@ -9,6 +10,7 @@ class InputTextWrap extends StatelessWidget {
   final Widget? iconSuffix;
   final bool obscureText;
   final String? Function(String?) validator;
+  final List<TextInputFormatter> ? inputFormatters;
 
   InputTextWrap(
       {required this.label,
@@ -16,11 +18,13 @@ class InputTextWrap extends StatelessWidget {
       required this.icon,
       required this.validator,
       this.iconSuffix,
+        this.inputFormatters,
       required this.obscureText});
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      inputFormatters: inputFormatters,
       controller: controller,
       obscureText: obscureText,
       decoration: InputDecoration(

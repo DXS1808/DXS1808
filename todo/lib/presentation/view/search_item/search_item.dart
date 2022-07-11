@@ -9,6 +9,23 @@ class SearchItem extends SearchDelegate {
 
   SearchItem(this.users);
 
+
+
+  @override
+  TextInputAction get textInputAction => TextInputAction.done;
+
+
+  @override
+  // TODO: implement searchFieldStyle
+  TextStyle? get searchFieldStyle => const TextStyle(
+    fontFamily: Constants.kFontFamily,
+    fontWeight: FontWeight.w400,
+    fontSize: 15
+  );
+
+  @override
+  String get searchFieldLabel => "Enter a search...";
+
   @override
   List<Widget>? buildActions(BuildContext context) {
     return [

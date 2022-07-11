@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:todo/presentation/bloc/user_profile_cubit.dart';
@@ -144,6 +145,9 @@ class _AddUserState extends State<AddUser> {
       ),
       obscureText: false,
       validator: (str) {
+        if(str!.isEmpty){
+          return "Name is required";
+        }
         return null;
       },
     );
@@ -153,6 +157,9 @@ class _AddUserState extends State<AddUser> {
     RegExp regExp = RegExp(r'^(84|0[3|5|7|8|9])+([0-9]{8})\b');
     return InputTextWrap(
       label: "Phone...",
+      inputFormatters: [
+        FilteringTextInputFormatter.allow(RegExp('[0-9]')),
+      ],
       controller: phone,
       icon: const Icon(
         Icons.phone,
@@ -180,6 +187,9 @@ class _AddUserState extends State<AddUser> {
       ),
       obscureText: false,
       validator: (str) {
+        if(str!.isEmpty){
+          return "Address is required";
+        }
         return null;
       },
     );

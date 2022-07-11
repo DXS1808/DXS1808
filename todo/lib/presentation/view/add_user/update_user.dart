@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import '../../../config/constants/constants.dart';
 import '../../../model/user_profile.dart';
 import '../../component/allert_dropdown/allert_dopdown.dart';
@@ -149,6 +150,9 @@ class _TodoUpdateState extends State<TodoUpdate> {
       ),
       obscureText: false,
       validator: (str) {
+        if(str!.isEmpty){
+          return "Name is required";
+        }
         return null;
       },
     );
@@ -158,6 +162,9 @@ class _TodoUpdateState extends State<TodoUpdate> {
     RegExp regExp = RegExp(r'^(84|0[3|5|7|8|9])+([0-9]{8})\b');
     return InputTextWrap(
       label: "Phone...",
+      inputFormatters: [
+        FilteringTextInputFormatter.allow(RegExp('[0-9]')),
+      ],
       controller: phone,
       icon: const Icon(
         Icons.phone,
@@ -166,11 +173,16 @@ class _TodoUpdateState extends State<TodoUpdate> {
       ),
       obscureText: false,
       validator: (str) {
-        if (regExp.hasMatch(str!) == false) {
+        if(str!.isEmpty){
           return "Enter valid phone";
         }
         return null;
-      },
+      }
+      //   if (regExp.hasMatch(str!) == false) {
+      //     return "Enter valid phone";
+      //   }
+      //   return null;
+      // },
     );
   }
 
@@ -185,6 +197,9 @@ class _TodoUpdateState extends State<TodoUpdate> {
       ),
       obscureText: false,
       validator: (str) {
+        if(str!.isEmpty){
+          return "Address is required";
+        }
         return null;
       },
     );
@@ -221,7 +236,7 @@ class _TodoUpdateState extends State<TodoUpdate> {
       obscureText: false,
       validator: (str) {
         if (str!.isEmpty) {
-          return "Age is required";
+          return "This Field is required";
         }
         return null;
       },
@@ -261,7 +276,7 @@ class _TodoUpdateState extends State<TodoUpdate> {
         // if (str!.isEmpty) {
         //   return "Description is required";
         // }
-        // return null;
+        return null;
       },
     );
   }
@@ -280,7 +295,7 @@ class _TodoUpdateState extends State<TodoUpdate> {
         // if (str!.isEmpty) {
         //   return "Description is required";
         // }
-        // return null;
+        return null;
       },
     );
   }
