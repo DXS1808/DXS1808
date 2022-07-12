@@ -4,8 +4,8 @@ import '../../../model/user_profile.dart';
 
 
 class UserScreenList extends StatelessWidget {
-  List<UserProfile> userList;
-  UserScreenList(this.userList, {Key? key}) : super(key: key);
+  final List<UserProfile> userList;
+  const UserScreenList(this.userList, {Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

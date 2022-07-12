@@ -233,10 +233,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
      await FirebaseAuth.instance
           .createUserWithEmailAndPassword(
           email: email.value.text.trim(), password: password.value.text.trim());
-     AllertDropdown.success("Sign up success");
+     AlertDropdown.success("Sign up success");
       Navigator.pushNamed(context, AppRouter.homeScreen);
     } catch (e){
-      AllertDropdown.error(e.toString());
+      AlertDropdown.error(e.toString());
     }
   }
 

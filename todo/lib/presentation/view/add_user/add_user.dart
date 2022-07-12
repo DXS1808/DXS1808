@@ -148,7 +148,7 @@ class _AddUserState extends State<AddUser> {
                               urlTelegram.text)
                               .then((value) {
                             blocUser?.addUser(Boxes.getTodos().values.toList());
-                            AllertDropdown.success("Add user success");
+                            AlertDropdown.success("Add user success");
                             clear();
                           });
                         }

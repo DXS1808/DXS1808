@@ -11,8 +11,8 @@ import '../add_user/update_user.dart';
 import '../add_user/user_avatar/avatar.dart';
 
 class UserItem extends StatefulWidget {
-  UserProfile userProfile;
-  int index;
+  final UserProfile userProfile;
+  final int index;
 
   UserItem(this.userProfile,this.index);
 
@@ -24,6 +24,7 @@ class _UserItemState extends State<UserItem> {
 
   @override
   Widget build(BuildContext context) {
+    BlocUser blocUser = context.read();
     return Card(
       // color: Colors.tealAccent.withOpacity(0.4),
       elevation: 5.0,
@@ -132,7 +133,8 @@ class _UserItemState extends State<UserItem> {
                         ShowDialog(
                             content: "Do you want delete item?",
                             press: () {
-                              deleteTodo(widget.userProfile);
+                              blocUser.deleteUser(widget.index);
+                              // deleteTodo(widget.userProfile);
                               Navigator.of(context, rootNavigator: true).pop();
                             }).show(context);
                       },

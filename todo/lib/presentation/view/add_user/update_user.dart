@@ -323,7 +323,7 @@ class _TodoUpdateState extends State<TodoUpdate> {
                   urlTelegram.text)
               .then((value) {
                 blocUser?.addUser(Boxes.todos);
-            AllertDropdown.success("Update Success");
+            AlertDropdown.success("Update Success");
             Navigator.push(context, MaterialPageRoute(builder: (context){
               return BlocProvider<BlocUser>.value(
                   value: blocUser!,

@@ -1,9 +1,5 @@
-import 'dart:io';
-
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
-
 import '../../../config/constants/constants.dart';
 import '../allert_dropdown/allert_dopdown.dart';
 
@@ -21,7 +17,7 @@ class PickImage {
       // final imageResult = File(image.path);
       // // pathImage = image.path;
     } catch (e) {
-      AllertDropdown.error("Failed to pick image $e");
+      AlertDropdown.error("Failed to pick image $e");
       throw ("Picker Failed");
     }
   }

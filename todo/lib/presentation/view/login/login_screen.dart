@@ -200,10 +200,10 @@ class _LoginScreenState extends State<LoginScreen> {
     try {
       await FirebaseAuth.instance
           .signInWithEmailAndPassword(email: email.text, password: password.text);
-      AllertDropdown.success("Login Success");
+      AlertDropdown.success("Login Success");
       Navigator.pushNamed(context, AppRouter.homeScreen);
     } catch (e){
-      AllertDropdown.error(e.toString());
+      AlertDropdown.error(e.toString());
     }
   }
 

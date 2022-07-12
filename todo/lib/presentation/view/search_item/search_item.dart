@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:todo/config/constants/constants.dart';
-import 'package:todo/data_sources/local_storage/boxes.dart';
 import 'package:todo/model/user_profile.dart';
+import 'package:todo/presentation/bloc/user_profile_cubit.dart';
 import 'package:todo/presentation/view/task_screen/user_item.dart';
 
 class SearchItem extends SearchDelegate {
@@ -9,19 +10,15 @@ class SearchItem extends SearchDelegate {
 
   SearchItem(this.users);
 
-
-
   @override
   TextInputAction get textInputAction => TextInputAction.done;
-
 
   @override
   // TODO: implement searchFieldStyle
   TextStyle? get searchFieldStyle => const TextStyle(
-    fontFamily: Constants.kFontFamily,
-    fontWeight: FontWeight.w400,
-    fontSize: 15
-  );
+      fontFamily: Constants.kFontFamily,
+      fontWeight: FontWeight.w400,
+      fontSize: 15);
 
   @override
   String get searchFieldLabel => "Enter a search...";
@@ -57,12 +54,15 @@ class SearchItem extends SearchDelegate {
         matchQuery.add(user);
       }
     }
-    return ListView.builder(
-      itemCount: matchQuery.length,
-      itemBuilder: (context, index) {
-        var result = matchQuery[index];
-        return UserItem(result,index);
-      },
+    return BlocProvider<BlocUser>(
+      create: (context) => BlocUser(),
+      child: ListView.builder(
+        itemCount: matchQuery.length,
+        itemBuilder: (context, index) {
+          var result = matchQuery[index];
+          return UserItem(result, index);
+        },
+      ),
     );
   }
 
@@ -95,12 +95,15 @@ class SearchItem extends SearchDelegate {
               ],
             ),
           )
-        : ListView.builder(
-            itemCount: matchQuery.length,
-            itemBuilder: (context, index) {
-              var result = matchQuery[index];
-              return UserItem(result,index);
-            },
+        : BlocProvider<BlocUser>(
+            create: (context) => BlocUser(),
+            child: ListView.builder(
+              itemCount: matchQuery.length,
+              itemBuilder: (context, index) {
+                var result = matchQuery[index];
+                return UserItem(result, index);
+              },
+            ),
           );
   }
 }

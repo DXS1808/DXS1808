@@ -1,14 +1,11 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:hive_flutter/adapters.dart';
 import 'package:todo/model/user_profile.dart';
 import 'package:todo/presentation/bloc/user_profile_cubit.dart';
 import 'package:todo/presentation/view/search_item/search_item.dart';
-import 'package:todo/presentation/view/task_screen/user_item.dart';
 import 'package:todo/presentation/view/task_screen/user_list.dart';
 import '../../config/constants/constants.dart';
-import '../../data_sources/local_storage/boxes.dart';
 import '../component/dialog.dart';
 import 'add_user/add_user.dart';
 
