@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:todo/data_sources/local_storage/boxes.dart';
 import 'package:todo/model/user_profile.dart';
 import 'package:todo/presentation/view/task_screen/user_detail.dart';
 import '../../../config/constants/constants.dart';
+import '../../bloc/user_profile_cubit.dart';
 import '../../component/dialog.dart';
 import '../../component/text_item.dart';
 import '../add_user/update_user.dart';
@@ -9,14 +12,16 @@ import '../add_user/user_avatar/avatar.dart';
 
 class UserItem extends StatefulWidget {
   UserProfile userProfile;
+  int index;
 
-  UserItem(this.userProfile);
+  UserItem(this.userProfile,this.index);
 
   @override
   _UserItemState createState() => _UserItemState();
 }
 
 class _UserItemState extends State<UserItem> {
+
   @override
   Widget build(BuildContext context) {
     return Card(
@@ -56,19 +61,20 @@ class _UserItemState extends State<UserItem> {
                   const SizedBox(
                     width: 10.0,
                   ),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      TextItem(
-                        content:
-                            "${widget.userProfile.name}, ${widget.userProfile.age}",
-                      ),
-                      const SizedBox(
-                        height: 5.0,
-                      ),
-                      Container(
-                        width: MediaQuery.of(context).size.width-155,
-                        child: TextItem(content: "${widget.userProfile.address}",
+                  Container(
+                    width: MediaQuery.of(context).size.width - 155,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        TextItem(
+                          content:
+                              "${widget.userProfile.name}, ${widget.userProfile.age}",
+                        ),
+                        const SizedBox(
+                          height: 5.0,
+                        ),
+                        TextItem(
+                          content: widget.userProfile.address,
                           maxLines: 1,
                           textStyle: TextStyle(
                             overflow: TextOverflow.ellipsis,
@@ -78,25 +84,24 @@ class _UserItemState extends State<UserItem> {
                             fontWeight: Constants.kFontWeight,
                           ),
                         ),
-                      ),
-                      const SizedBox(
-                        height: 5.0,
-                      ),
-                      Row(
-                        children: [
-                          TextItem(
-                              content:
-                                  "${widget.userProfile.phone}",
-                          textStyle: TextStyle(
-                            color: Colors.grey.withOpacity(0.8),
-                            fontFamily: Constants.kFontFamily,
-                            fontSize: 12,
-                            fontWeight: Constants.kFontWeight,
-                          ),
-                          )
-                        ],
-                      )
-                    ],
+                        const SizedBox(
+                          height: 5.0,
+                        ),
+                        Row(
+                          children: [
+                            TextItem(
+                              content: widget.userProfile.phone,
+                              textStyle: TextStyle(
+                                color: Colors.grey.withOpacity(0.8),
+                                fontFamily: Constants.kFontFamily,
+                                fontSize: 12,
+                                fontWeight: Constants.kFontWeight,
+                              ),
+                            )
+                          ],
+                        )
+                      ],
+                    ),
                   )
                 ],
               ),
@@ -144,14 +149,20 @@ class _UserItemState extends State<UserItem> {
     );
   }
 
-  deleteTodo(UserProfile todoList) {
-    todoList.delete();
+  deleteTodo(UserProfile userProfile) {
+    userProfile.delete();
   }
 
   Route _createRoute() {
+    final BlocUser blocUser = context.read();
     return PageRouteBuilder(
+      // pageBuilder: (context, animation, secondaryAnimation) =>
+      //     TodoUpdate(widget.userProfile),
       pageBuilder: (context, animation, secondaryAnimation) =>
-          TodoUpdate(widget.userProfile),
+          BlocProvider<BlocUser>.value(
+        value: blocUser,
+        child: TodoUpdate(widget.userProfile),
+      ),
       transitionsBuilder: (context, animation, secondaryAnimation, child) {
         const begin = Offset(0.0, 1.0);
         const end = Offset.zero;

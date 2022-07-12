@@ -35,6 +35,15 @@ class _AddUserState extends State<AddUser> {
 
   final GlobalKey<FormState> _key = GlobalKey<FormState>();
 
+  BlocUser ? blocUser;
+
+  @override
+  void initState() {
+    blocUser = BlocProvider.of<BlocUser>(context);
+    // TODO: implement initState
+    super.initState();
+  }
+
 
   String? imagePath;
 
@@ -124,7 +133,27 @@ class _AddUserState extends State<AddUser> {
                   ),
                   inputUrlTelegram(),
                   const SizedBox(height: 30.0),
-                  buttonAddUser()
+                  RounedButton(
+                      onPress: () {
+                        if (_key.currentState!.validate()) {
+                          addTodo(
+                              name.text,
+                              phone.text,
+                              address.text,
+                              imagePath!,
+                              job.text,
+                              age.text,
+                              description.text,
+                              urlFacebook.text,
+                              urlTelegram.text)
+                              .then((value) {
+                            blocUser?.addUser(Boxes.getTodos().values.toList());
+                            AllertDropdown.success("Add user success");
+                            clear();
+                          });
+                        }
+                      },
+                      text: "Add User")
                 ],
               ),
             ),
@@ -263,6 +292,7 @@ class _AddUserState extends State<AddUser> {
       ),
       obscureText: false,
       validator: (str) {
+        return null;
         // if (str!.isEmpty) {
         //   return "Description is required";
         // }
@@ -282,6 +312,7 @@ class _AddUserState extends State<AddUser> {
       ),
       obscureText: false,
       validator: (str) {
+        return null;
       },
     );
   }
@@ -290,62 +321,63 @@ class _AddUserState extends State<AddUser> {
     return FormField<XFile>(
         validator: validator,
         builder: (formFieldState) {
-          return Container(
-              child: Column(
+          return Column(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              GestureDetector(
-                onTap: () {
-                  PickImage.imagePicker(context).then((value) {
-                    setState(() {
-                      imagePath = value!.path;
-                      // print(value);
-                    });
-                  });
-                },
-                child: CircleAvatar(
-                  maxRadius: 50,
-                  backgroundColor: Colors.grey.withOpacity(0.1),
-                  child: const Icon(
-                    Icons.camera_alt_outlined,
-                    color: Constants.kBackgroundColor,
-                  ),
-                ),
+          GestureDetector(
+            onTap: () {
+              PickImage.imagePicker(context).then((value) {
+                setState(() {
+                  imagePath = value!.path;
+                  // print(value);
+                });
+              });
+            },
+            child: CircleAvatar(
+              maxRadius: 50,
+              backgroundColor: Colors.grey.withOpacity(0.1),
+              child: const Icon(
+                Icons.camera_alt_outlined,
+                color: Constants.kBackgroundColor,
               ),
-              const Padding(padding: EdgeInsets.symmetric(vertical: 5.0)),
-              if (formFieldState.hasError)
-                Text(
-                  formFieldState.errorText!,
-                  style:const TextStyle(fontSize: 14, color: Colors.red),
-                ),
+            ),
+          ),
+          const Padding(padding: EdgeInsets.symmetric(vertical: 5.0)),
+          if (formFieldState.hasError)
+            Text(
+              formFieldState.errorText!,
+              style:const TextStyle(fontSize: 14, color: Colors.red),
+            ),
             ],
-          ));
+          );
         });
   }
 
 
-  buttonAddUser() {
-    return RounedButton(
-        onPress: () {
-          if (_key.currentState!.validate()) {
-            addTodo(
-                    name.text,
-                    phone.text,
-                    address.text,
-                    imagePath!,
-                    job.text,
-                    age.text,
-                    description.text,
-                    urlFacebook.text,
-                    urlTelegram.text)
-                .then((value) {
-              AllertDropdown.success("Add user success");
-              clear();
-            });
-          }
-        },
-        text: "Add User");
-  }
+  // buttonAddUser() {
+  //   BlocUser blocUser = context.watch<BlocUser>();
+  //   return RounedButton(
+  //       onPress: () {
+  //         if (_key.currentState!.validate()) {
+  //           addTodo(
+  //                   name.text,
+  //                   phone.text,
+  //                   address.text,
+  //                   imagePath!,
+  //                   job.text,
+  //                   age.text,
+  //                   description.text,
+  //                   urlFacebook.text,
+  //                   urlTelegram.text)
+  //               .then((value) {
+  //                 blocUser.addUser(Boxes.todos);
+  //             AllertDropdown.success("Add user success");
+  //             clear();
+  //           });
+  //         }
+  //       },
+  //       text: "Add User");
+  // }
 
   Future addTodo(
       String name,

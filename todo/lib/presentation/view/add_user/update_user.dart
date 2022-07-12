@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:todo/data_sources/local_storage/boxes.dart';
+import 'package:todo/presentation/bloc/user_profile_cubit.dart';
+import 'package:todo/presentation/view/home_screen.dart';
 import '../../../config/constants/constants.dart';
 import '../../../model/user_profile.dart';
 import '../../component/allert_dropdown/allert_dopdown.dart';
@@ -32,6 +36,8 @@ class _TodoUpdateState extends State<TodoUpdate> {
   TextEditingController urlFacebook = TextEditingController();
   TextEditingController urlTelegram = TextEditingController();
 
+  BlocUser ? blocUser;
+
   final GlobalKey<FormState> _key = GlobalKey<FormState>();
 
   // String? imageFile;
@@ -52,6 +58,7 @@ class _TodoUpdateState extends State<TodoUpdate> {
     if (widget.userProfile.urlTelegram != null) {
       urlTelegram.text = widget.userProfile.urlTelegram!;
     }
+    blocUser = context.read();
     // imageFile = widget.todoList.imgUrl;
     // TODO: implement initState
     super.initState();
@@ -131,7 +138,7 @@ class _TodoUpdateState extends State<TodoUpdate> {
                   ),
                   inputUrlTelegram(),
                   const SizedBox(height: 30.0),
-                  buttonUpdate(context),
+                  buttonUpdate(),
                 ],
               ),
             ),
@@ -300,7 +307,7 @@ class _TodoUpdateState extends State<TodoUpdate> {
     );
   }
 
-  buttonUpdate(BuildContext context) {
+  buttonUpdate() {
     return RounedButton(
         onPress: () {
           editTodo(
@@ -315,8 +322,14 @@ class _TodoUpdateState extends State<TodoUpdate> {
                   urlFacebook.text,
                   urlTelegram.text)
               .then((value) {
+                blocUser?.addUser(Boxes.todos);
             AllertDropdown.success("Update Success");
-            Navigator.pushNamed(context, "/homeScreen");
+            Navigator.push(context, MaterialPageRoute(builder: (context){
+              return BlocProvider<BlocUser>.value(
+                  value: blocUser!,
+                  // create: (context) => BlocUser(),
+                  child: HomeScreen());
+            }));
           });
         },
         text: "Update");

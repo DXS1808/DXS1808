@@ -48,13 +48,13 @@ class _MyAppState extends State<MyApp> {
       builder: (context, child) => Stack(
         children: [child!, const DropdownAlert()],
       ),
-      home: const MainPage()
-      // home: MultiBlocProvider(
-      //   providers: [
-      //     BlocProvider(create: (BuildContext context) => BlocUser())
-      //   ],
-      //   child:const MainPage(),
-      // ),
+      // home: const MainPage()
+      home: MultiBlocProvider(
+        providers: [
+          BlocProvider<BlocUser>(create: (BuildContext context) => BlocUser())
+        ],
+        child:const MainPage(),
+      ),
     );
   }
 }

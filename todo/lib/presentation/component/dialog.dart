@@ -11,7 +11,7 @@ class ShowDialog {
   show(BuildContext context){
     showDialog(context: context, builder: (BuildContext context){
       return AlertDialog(
-        shape: RoundedRectangleBorder(
+        shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.all(Radius.circular(10.0))
         ),
         contentPadding:const EdgeInsets.all(10.0),

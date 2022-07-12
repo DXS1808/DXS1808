@@ -12,7 +12,7 @@ class UserScreenList extends StatelessWidget {
     return ListView.builder(
       itemCount: userList.length,
         itemBuilder: (context,index){
-        return UserItem(userList[index]);
+        return UserItem(userList[index],index);
     });
   }
 }

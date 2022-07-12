@@ -61,7 +61,7 @@ class SearchItem extends SearchDelegate {
       itemCount: matchQuery.length,
       itemBuilder: (context, index) {
         var result = matchQuery[index];
-        return UserItem(result);
+        return UserItem(result,index);
       },
     );
   }
@@ -99,7 +99,7 @@ class SearchItem extends SearchDelegate {
             itemCount: matchQuery.length,
             itemBuilder: (context, index) {
               var result = matchQuery[index];
-              return UserItem(result);
+              return UserItem(result,index);
             },
           );
   }
