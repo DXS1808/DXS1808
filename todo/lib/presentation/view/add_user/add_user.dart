@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:todo/data_sources/repository/user_impl.dart';
+import 'package:todo/data_sources/repository/user_repository.dart';
 import 'package:todo/presentation/bloc/user_profile_cubit.dart';
 import '../../../config/constants/constants.dart';
 import '../../../data_sources/local_storage/boxes.dart';
@@ -34,6 +36,7 @@ class _AddUserState extends State<AddUser> {
   TextEditingController urlTelegram = TextEditingController();
 
   final GlobalKey<FormState> _key = GlobalKey<FormState>();
+  UserImpl userImpl = UserImpl();
 
   BlocUser ? blocUser;
 
@@ -136,7 +139,7 @@ class _AddUserState extends State<AddUser> {
                   RounedButton(
                       onPress: () {
                         if (_key.currentState!.validate()) {
-                          addTodo(
+                          userImpl.addTodo(
                               name.text,
                               phone.text,
                               address.text,
@@ -379,30 +382,6 @@ class _AddUserState extends State<AddUser> {
   //       text: "Add User");
   // }
 
-  Future addTodo(
-      String name,
-      String phone,
-      String address,
-      String imgUrl,
-      String job,
-      String age,
-      String description,
-      String urlFacebook,
-      String urlTelegram,) async {
-    final userProfile = UserProfile(name, phone, address, imgUrl, job, age,
-        description, urlFacebook, urlTelegram)
-      ..name = name
-      ..phone = phone
-      ..address = address
-      ..imgUrl = imgUrl
-      ..job = job
-      ..age = age
-      ..description = description
-      ..urlFacebook = urlFacebook
-      ..urlTelegram = urlTelegram;
-
-    await Boxes.getTodos().add(userProfile);
-  }
 
   clear() {
     name.clear();

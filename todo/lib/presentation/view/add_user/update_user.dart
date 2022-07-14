@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:todo/data_sources/local_storage/boxes.dart';
+import 'package:todo/data_sources/repository/user_impl.dart';
 import 'package:todo/presentation/bloc/user_profile_cubit.dart';
 import 'package:todo/presentation/view/home_screen.dart';
 import '../../../config/constants/constants.dart';
@@ -35,6 +36,7 @@ class _TodoUpdateState extends State<TodoUpdate> {
 
   TextEditingController urlFacebook = TextEditingController();
   TextEditingController urlTelegram = TextEditingController();
+  UserImpl userImpl = UserImpl();
 
   BlocUser ? blocUser;
 
@@ -310,7 +312,7 @@ class _TodoUpdateState extends State<TodoUpdate> {
   buttonUpdate() {
     return RounedButton(
         onPress: () {
-          editTodo(
+          userImpl.editTodo(
                   widget.userProfile,
                   name.text,
                   phone.text,
@@ -335,26 +337,26 @@ class _TodoUpdateState extends State<TodoUpdate> {
         text: "Update");
   }
 
-  Future editTodo(
-      UserProfile userProfile,
-      String name,
-      String phone,
-      String address,
-      String imgUrl,
-      String job,
-      String age,
-      String description,
-      String urlFacebook,
-      String urlTelegram) async {
-    userProfile.name = name;
-    userProfile.phone = phone;
-    userProfile.address = address;
-    userProfile.imgUrl = imgUrl;
-    userProfile.job = job;
-    userProfile.age = age;
-    userProfile.description = description;
-    userProfile.urlFacebook = urlFacebook;
-    userProfile.urlTelegram = urlTelegram;
-    await userProfile.save();
-  }
+  // Future editTodo(
+  //     UserProfile userProfile,
+  //     String name,
+  //     String phone,
+  //     String address,
+  //     String imgUrl,
+  //     String job,
+  //     String age,
+  //     String description,
+  //     String urlFacebook,
+  //     String urlTelegram) async {
+  //   userProfile.name = name;
+  //   userProfile.phone = phone;
+  //   userProfile.address = address;
+  //   userProfile.imgUrl = imgUrl;
+  //   userProfile.job = job;
+  //   userProfile.age = age;
+  //   userProfile.description = description;
+  //   userProfile.urlFacebook = urlFacebook;
+  //   userProfile.urlTelegram = urlTelegram;
+  //   await userProfile.save();
+  // }
 }

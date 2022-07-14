@@ -151,10 +151,6 @@ class _UserItemState extends State<UserItem> {
     );
   }
 
-  deleteTodo(UserProfile userProfile) {
-    userProfile.delete();
-  }
-
   Route _createRoute() {
     final BlocUser blocUser = context.read();
     return PageRouteBuilder(
