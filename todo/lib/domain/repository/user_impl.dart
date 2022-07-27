@@ -1,9 +1,9 @@
-import 'package:todo/data_sources/repository/user_api.dart';
-import 'package:todo/data_sources/repository/user_repository.dart';
+import 'package:todo/data_sources/local_storage/user_local.dart';
+import 'package:todo/domain/repository/user_repository.dart';
 import 'package:todo/model/user_profile.dart';
 
 class UserImpl implements UserRepository {
-  UserApi userApi = UserApi();
+  UserLocal userLocal = UserLocal();
   @override
   Future addTodo(
       String name,
@@ -16,7 +16,7 @@ class UserImpl implements UserRepository {
       String urlFacebook,
       String urlTelegram) {
     // TODO: implement addTodo
-    return userApi.addTodo(name, phone, address, imgUrl, job, age, description, urlFacebook, urlTelegram);
+    return userLocal.addTodo(name, phone, address, imgUrl, job, age, description, urlFacebook, urlTelegram);
   }
 
   @override
@@ -32,6 +32,6 @@ class UserImpl implements UserRepository {
       String urlFacebook,
       String urlTelegram) {
     // TODO: implement editTodo
-    return userApi.editTodo(userProfile, name, phone, address, imgUrl, job, age, description, urlFacebook, urlTelegram);
+    return userLocal.editTodo(userProfile, name, phone, address, imgUrl, job, age, description, urlFacebook, urlTelegram);
   }
 }

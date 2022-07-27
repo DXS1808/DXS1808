@@ -1,7 +1,8 @@
+import 'boxes.dart';
 import '../../model/user_profile.dart';
-import '../local_storage/boxes.dart';
 
-class UserApi {
+
+class UserLocal {
   Future addTodo(
       String name,
       String phone,

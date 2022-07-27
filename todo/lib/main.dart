@@ -9,7 +9,6 @@ import 'package:todo/model/user_profile.dart';
 import 'package:todo/presentation/bloc/user_profile_cubit.dart';
 import 'package:todo/presentation/view/home_screen.dart';
 import 'package:todo/presentation/view/splash.dart';
-import 'package:path_provider/path_provider.dart' as path_provider;
 
 import 'config/router/router.dart';
 
