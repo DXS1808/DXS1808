@@ -1,7 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import '../../../config/constants/constants.dart';
-import '../../../config/router/router.dart';
+import '../../../core/router/router.dart';
 import '../../component/allert_dropdown/allert_dopdown.dart';
 import '../../component/input_text_wrap.dart';
 import '../../component/rouned_button.dart';

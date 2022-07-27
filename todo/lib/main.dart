@@ -10,7 +10,8 @@ import 'package:todo/presentation/bloc/user_profile_cubit.dart';
 import 'package:todo/presentation/view/home_screen.dart';
 import 'package:todo/presentation/view/splash.dart';
 
-import 'config/router/router.dart';
+import 'core/router/router.dart';
+
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
