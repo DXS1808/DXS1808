@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -36,11 +37,11 @@ class _AddUserState extends State<AddUser> {
   final GlobalKey<FormState> _key = GlobalKey<FormState>();
   UserImpl userCall = UserImpl();
 
-  BlocUser ? blocUser;
+  UserCubit ? blocUser;
 
   @override
   void initState() {
-    blocUser = BlocProvider.of<BlocUser>(context);
+    blocUser = BlocProvider.of<UserCubit>(context);
     // TODO: implement initState
     super.initState();
   }
@@ -134,7 +135,7 @@ class _AddUserState extends State<AddUser> {
                   ),
                   inputUrlTelegram(),
                   const SizedBox(height: 30.0),
-                  RounedButton(
+                  RoundedButton(
                       onPress: () {
                         if (_key.currentState!.validate()) {
                           userCall.addTodo(
@@ -146,9 +147,11 @@ class _AddUserState extends State<AddUser> {
                               age.text,
                               description.text,
                               urlFacebook.text,
-                              urlTelegram.text)
+                              urlTelegram.text,
+                              FirebaseAuth.instance.currentUser!.uid
+                          )
                               .then((value) {
-                            blocUser?.addUser(Boxes.getTodos().values.toList());
+                            blocUser?.addUser(Boxes.todos(FirebaseAuth.instance.currentUser!.uid));
                             AlertDropdown.success("Add user success");
                             clear();
                           });

@@ -25,7 +25,7 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    return BlocBuilder<BlocUser, UsersProfile>(builder: (context, state) {
+    return BlocBuilder<UserCubit, UsersProfile>(builder: (context, state) {
       return Scaffold(
           appBar: AppBar(
             centerTitle: true,
@@ -188,11 +188,11 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Route _createRoute() {
-    final BlocUser blocUser = context.read();
+    final UserCubit blocUser = context.read();
     return PageRouteBuilder(
       // pageBuilder: (context, animation, secondaryAnimation) => const AddUser(),
       pageBuilder: (context, animation, secondaryAnimation) =>
-          BlocProvider<BlocUser>.value(
+          BlocProvider<UserCubit>.value(
         value: blocUser,
         // create: (context) => BlocUser(),
         child: const AddUser(),

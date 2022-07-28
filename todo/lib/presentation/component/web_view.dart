@@ -8,8 +8,8 @@ import '../../config/constants/constants.dart';
 
 
 class PreviewWeb extends StatefulWidget {
-  String url;
-  PreviewWeb({Key? key,required this.url}) : super(key: key);
+  final String url;
+  const PreviewWeb({Key? key,required this.url}) : super(key: key);
 
   @override
   State<PreviewWeb> createState() => _PreviewWebState();

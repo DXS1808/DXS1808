@@ -20,9 +20,8 @@ class AppRouter {
     splash:(context) => const Splash(),
     loginAuth:(context)=>LoginScreen(),
     homeScreen:(context) {
-      BlocUser blocUser = context.read();
-      return  BlocProvider<BlocUser>.value(
-        value: blocUser,
+      return  BlocProvider<UserCubit>(
+        create:(context) => UserCubit(),
         child: HomeScreen() ,
       );
     },

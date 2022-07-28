@@ -5,7 +5,7 @@ import '../../component/web_view.dart';
 import '../add_user/user_avatar/avatar.dart';
 
 class UserDetail extends StatelessWidget {
-  UserProfile userProfile;
+  final UserProfile userProfile;
 
   UserDetail(this.userProfile);
 

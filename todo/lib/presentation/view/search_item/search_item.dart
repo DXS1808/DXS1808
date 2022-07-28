@@ -54,8 +54,8 @@ class SearchItem extends SearchDelegate {
         matchQuery.add(user);
       }
     }
-    return BlocProvider<BlocUser>(
-      create: (context) => BlocUser(),
+    return BlocProvider<UserCubit>(
+      create: (context) => UserCubit(),
       child: ListView.builder(
         itemCount: matchQuery.length,
         itemBuilder: (context, index) {
@@ -95,8 +95,8 @@ class SearchItem extends SearchDelegate {
               ],
             ),
           )
-        : BlocProvider<BlocUser>(
-            create: (context) => BlocUser(),
+        : BlocProvider<UserCubit>(
+            create: (context) => UserCubit(),
             child: ListView.builder(
               itemCount: matchQuery.length,
               itemBuilder: (context, index) {

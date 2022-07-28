@@ -12,7 +12,7 @@ class InputTextWrap extends StatelessWidget {
   final String? Function(String?) validator;
   final List<TextInputFormatter> ? inputFormatters;
 
-  InputTextWrap(
+ InputTextWrap(
       {required this.label,
       required this.controller,
       required this.icon,

@@ -1,6 +1,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:hive/hive.dart';
 import '../../../core/router/router.dart';
+import '../../../model/user_profile.dart';
 import '../../component/input_text_wrap.dart';
 import '../../../config/constants/constants.dart';
 import '../../component/allert_dropdown/allert_dopdown.dart';
@@ -21,84 +23,79 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
-    Size size = MediaQuery
-        .of(context)
-        .size;
+    Size size = MediaQuery.of(context).size;
     return GestureDetector(
       onTap: () {
         FocusScope.of(context).unfocus();
       },
       child: Material(
-        child: Form(
-                key: _key,
-                child: Container(
-                  padding: const EdgeInsets.symmetric(
-                      horizontal: 10.0, vertical: 20.0),
-                  decoration: const BoxDecoration(
-                      image: DecorationImage(
-                          image: AssetImage(
-                            "assets/login.png",
+          child: Form(
+              key: _key,
+              child: Container(
+                padding: const EdgeInsets.symmetric(
+                    horizontal: 10.0, vertical: 20.0),
+                decoration: const BoxDecoration(
+                    image: DecorationImage(
+                        image: AssetImage(
+                          "assets/login.png",
+                        ),
+                        fit: BoxFit.cover)),
+                child: SingleChildScrollView(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      SizedBox(
+                        height: size.height / 5,
+                      ),
+                      const Text(
+                        "Login",
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 30,
+                            color: Colors.white),
+                      ),
+                      const SizedBox(
+                        height: 100,
+                      ),
+                      inputUserName(),
+                      const SizedBox(
+                        height: 10.0,
+                      ),
+                      inputPassword(),
+                      const SizedBox(
+                        height: 50.0,
+                      ),
+                      loginButton(context),
+                      const SizedBox(height: 20.0),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          const Text(
+                            "Don't have account?",
+                            style: TextStyle(
+                                fontSize: Constants.kFontSize,
+                                fontFamily: Constants.kFontFamily),
                           ),
-                          fit: BoxFit.cover)
-                  ),
-                  child: SingleChildScrollView(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        SizedBox(
-                          height: size.height / 5,
-                        ),
-                        const Text(
-                          "Login",
-                          style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 30,
-                              color: Colors.white),
-                        ),
-                        const SizedBox(
-                          height: 100,
-                        ),
-                        inputUserName(),
-                        const SizedBox(
-                          height: 10.0,
-                        ),
-                        inputPassword(),
-                        const SizedBox(
-                          height: 50.0,
-                        ),
-                        loginButton(context),
-                        const SizedBox(height: 20.0),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            const Text("Don't have account?",
+                          TextButton(
+                            onPressed: () {
+                              Navigator.pushNamed(context, "/signup");
+                              // print(users);
+                            },
+                            child: const Text(
+                              "Sign up",
                               style: TextStyle(
+                                  decoration: TextDecoration.underline,
+                                  color: Constants.kBackgroundColor,
                                   fontSize: Constants.kFontSize,
-                                  fontFamily: Constants.kFontFamily
-                              ),
+                                  fontFamily: Constants.kFontFamily),
                             ),
-                            TextButton(
-                              onPressed: () {
-                                Navigator.pushNamed(context, "/signup");
-                                // print(users);
-                              },
-                              child: const Text(
-                                "Sign up",
-                                style: TextStyle(
-                                    decoration: TextDecoration.underline,
-                                    color: Constants.kBackgroundColor,
-                                    fontSize: Constants.kFontSize,
-                                    fontFamily: Constants.kFontFamily
-                                ),
-                              ),
-                            )
-                          ],
-                        )
-                      ],
-                    ),
+                          )
+                        ],
+                      )
+                    ],
                   ),
-                ))
-      ),
+                ),
+              ))),
     );
   }
 
@@ -174,15 +171,12 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   loginButton(BuildContext context) {
-    Size size = MediaQuery
-        .of(context)
-        .size;
-    return RounedButton(
+    Size size = MediaQuery.of(context).size;
+    return RoundedButton(
       onPress: () {
-              // getUser();
+        // getUser();
         if (_key.currentState!.validate()) {
-          signInUser(context).then((value) {
-          });
+          signInUser(context).then((value) {});
           // for (int i = 0; i <= users.length - 1; i++) {
           //   if (users[i].email == email.value.text &&
           //       users[i].password == password.value.text) {
@@ -199,10 +193,16 @@ class _LoginScreenState extends State<LoginScreen> {
   Future<void> signInUser(BuildContext context) async {
     try {
       await FirebaseAuth.instance
-          .signInWithEmailAndPassword(email: email.text, password: password.text);
-      AlertDropdown.success("Login Success");
-      Navigator.pushNamed(context, AppRouter.homeScreen);
-    } catch (e){
+          .signInWithEmailAndPassword(
+              email: email.text, password: password.text)
+          .then((value) async {
+        AlertDropdown.success("Login Success");
+        await Hive.openBox<UserProfile>(
+            "usersProfile_${FirebaseAuth.instance.currentUser!.uid}");
+        Navigator.pushNamed(context, AppRouter.homeScreen);
+
+      });
+    } catch (e) {
       AlertDropdown.error(e.toString());
     }
   }
@@ -213,5 +213,4 @@ class _LoginScreenState extends State<LoginScreen> {
     password.clear();
     super.dispose();
   }
-
 }

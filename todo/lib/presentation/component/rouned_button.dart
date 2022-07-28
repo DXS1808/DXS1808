@@ -1,10 +1,10 @@
-import 'package:flutter/cupertino.dart';
+
 import 'package:flutter/material.dart';
 
-class RounedButton extends StatelessWidget {
-  VoidCallback onPress;
-  String text;
-  RounedButton({required this.onPress,required this.text});
+class RoundedButton extends StatelessWidget {
+  final VoidCallback onPress;
+  final String text;
+  RoundedButton({required this.onPress,required this.text});
 
   @override
   Widget build(BuildContext context) {

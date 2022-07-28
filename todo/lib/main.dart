@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_dropdown_alert/dropdown_alert.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:todo/firebase_options.dart';
 import 'package:todo/model/user_profile.dart';
 import 'package:todo/presentation/bloc/user_profile_cubit.dart';
 import 'package:todo/presentation/view/home_screen.dart';
@@ -12,17 +11,15 @@ import 'package:todo/presentation/view/splash.dart';
 
 import 'core/router/router.dart';
 
-
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp(
-      options: DefaultFirebaseOptions.currentPlatform, name: "demo-auth");
   // final appDocumentDirectory = await path_provider.getApplicationDocumentsDirectory();
   // Hive.init(appDocumentDirectory.path);
+  await Firebase.initializeApp();
   await Hive.initFlutter();
   Hive.registerAdapter(UserProfileAdapter());
-  await Hive.openBox<UserProfile>("usersProfile");
-
+  await Hive.openBox<UserProfile>(
+      "usersProfile_${FirebaseAuth.instance.currentUser?.uid}");
   runApp(const MyApp());
 }
 
@@ -34,9 +31,12 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+  }
 
-
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -51,9 +51,9 @@ class _MyAppState extends State<MyApp> {
       // home: const MainPage()
       home: MultiBlocProvider(
         providers: [
-          BlocProvider<BlocUser>(create: (BuildContext context) => BlocUser())
+          BlocProvider<UserCubit>(create: (BuildContext context) => UserCubit())
         ],
-        child:const MainPage(),
+        child: const MainPage(),
       ),
     );
   }
@@ -70,7 +70,6 @@ class MainPage extends StatelessWidget {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const CircularProgressIndicator();
           } else if (snapshot.hasError) {
-            print(snapshot.error);
           } else if (snapshot.hasData) {
             return HomeScreen();
           }

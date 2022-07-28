@@ -12,7 +12,8 @@ class UserLocal {
       String age,
       String description,
       String urlFacebook,
-      String urlTelegram,) async {
+      String urlTelegram,
+      String userId) async {
     final userProfile = UserProfile(name, phone, address, imgUrl, job, age,
         description, urlFacebook, urlTelegram)
       ..name = name
@@ -25,7 +26,7 @@ class UserLocal {
       ..urlFacebook = urlFacebook
       ..urlTelegram = urlTelegram;
 
-    await Boxes.getTodos().add(userProfile);
+    await Boxes.getTodos(userId).add(userProfile);
   }
   Future editTodo(
       UserProfile userProfile,
@@ -48,5 +49,8 @@ class UserLocal {
     userProfile.urlFacebook = urlFacebook;
     userProfile.urlTelegram = urlTelegram;
     await userProfile.save();
+  }
+  Future delete(UserProfile userProfile) async {
+    await userProfile.delete();
   }
 }

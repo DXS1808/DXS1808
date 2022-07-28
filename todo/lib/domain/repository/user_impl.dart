@@ -14,9 +14,11 @@ class UserImpl implements UserRepository {
       String age,
       String description,
       String urlFacebook,
-      String urlTelegram) {
+      String urlTelegram,
+      String userId
+      ) {
     // TODO: implement addTodo
-    return userLocal.addTodo(name, phone, address, imgUrl, job, age, description, urlFacebook, urlTelegram);
+    return userLocal.addTodo(name, phone, address, imgUrl, job, age, description, urlFacebook, urlTelegram,userId);
   }
 
   @override
@@ -33,5 +35,11 @@ class UserImpl implements UserRepository {
       String urlTelegram) {
     // TODO: implement editTodo
     return userLocal.editTodo(userProfile, name, phone, address, imgUrl, job, age, description, urlFacebook, urlTelegram);
+  }
+
+  @override
+  Future delete(UserProfile userProfile) {
+    // TODO: implement delete
+    return userLocal.delete(userProfile);
   }
 }

@@ -1,6 +1,8 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:todo/data_sources/local_storage/boxes.dart';
+import 'package:todo/domain/repository/user_impl.dart';
 import 'package:todo/model/user_profile.dart';
 import 'package:todo/presentation/view/task_screen/user_detail.dart';
 import '../../../config/constants/constants.dart';
@@ -22,9 +24,11 @@ class UserItem extends StatefulWidget {
 
 class _UserItemState extends State<UserItem> {
 
+  UserImpl userImpl = UserImpl();
+
   @override
   Widget build(BuildContext context) {
-    BlocUser blocUser = context.read();
+    UserCubit userCubit = context.read<UserCubit>();
     return Card(
       // color: Colors.tealAccent.withOpacity(0.4),
       elevation: 5.0,
@@ -62,7 +66,7 @@ class _UserItemState extends State<UserItem> {
                   const SizedBox(
                     width: 10.0,
                   ),
-                  Container(
+                  SizedBox(
                     width: MediaQuery.of(context).size.width - 155,
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -133,9 +137,11 @@ class _UserItemState extends State<UserItem> {
                         ShowDialog(
                             content: "Do you want delete item?",
                             press: () {
-                              blocUser.deleteUser(widget.index);
-                              // deleteTodo(widget.userProfile);
+                              userImpl.delete(widget.userProfile);
                               Navigator.of(context, rootNavigator: true).pop();
+                              userCubit.addUser(Boxes.todos(FirebaseAuth.instance.currentUser!.uid));
+                              // deleteTodo(widget.userProfile);
+
                             }).show(context);
                       },
                       child: const Icon(Icons.delete,
@@ -152,12 +158,12 @@ class _UserItemState extends State<UserItem> {
   }
 
   Route _createRoute() {
-    final BlocUser blocUser = context.read();
+    final UserCubit blocUser = context.read();
     return PageRouteBuilder(
       // pageBuilder: (context, animation, secondaryAnimation) =>
       //     TodoUpdate(widget.userProfile),
       pageBuilder: (context, animation, secondaryAnimation) =>
-          BlocProvider<BlocUser>.value(
+          BlocProvider<UserCubit>.value(
         value: blocUser,
         child: TodoUpdate(widget.userProfile),
       ),

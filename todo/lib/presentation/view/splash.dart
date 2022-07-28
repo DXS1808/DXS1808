@@ -1,6 +1,5 @@
+
 import 'package:flutter/material.dart';
-import 'package:hive/hive.dart';
-import 'package:hive_flutter/adapters.dart';
 import 'package:splashscreen/splashscreen.dart';
 
 import '../../config/constants/constants.dart';
@@ -18,12 +17,6 @@ class _SplashState extends State<Splash> {
 
   @override
   void initState() {
-    // WidgetsFlutterBinding.ensureInitialized();
-    // await Hive.initFlutter();
-    // Hive.registerAdapter(AccountAdapter());
-    // Hive.registerAdapter(UserProfileAdapter());
-    // await Hive.openBox<UserProfile>("usersProfile");
-    // await Hive.openBox<Account>("account");
     // TODO: implement initState
     super.initState();
   }

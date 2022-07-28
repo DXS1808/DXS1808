@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -12,7 +13,6 @@ import '../../component/input_text_wrap.dart';
 import '../../component/pick_image/pick_image.dart';
 import '../../component/rouned_button.dart';
 import 'user_avatar/avatar.dart';
-
 
 class TodoUpdate extends StatefulWidget {
   UserProfile userProfile;
@@ -38,7 +38,7 @@ class _TodoUpdateState extends State<TodoUpdate> {
   TextEditingController urlTelegram = TextEditingController();
   UserImpl userCall = UserImpl();
 
-  BlocUser ? blocUser;
+  UserCubit? blocUser;
 
   final GlobalKey<FormState> _key = GlobalKey<FormState>();
 
@@ -159,7 +159,7 @@ class _TodoUpdateState extends State<TodoUpdate> {
       ),
       obscureText: false,
       validator: (str) {
-        if(str!.isEmpty){
+        if (str!.isEmpty) {
           return "Name is required";
         }
         return null;
@@ -170,29 +170,29 @@ class _TodoUpdateState extends State<TodoUpdate> {
   inputPhone() {
     RegExp regExp = RegExp(r'^(84|0[3|5|7|8|9])+([0-9]{8})\b');
     return InputTextWrap(
-      label: "Phone...",
-      inputFormatters: [
-        FilteringTextInputFormatter.allow(RegExp('[0-9]')),
-      ],
-      controller: phone,
-      icon: const Icon(
-        Icons.phone,
-        size: 20,
-        color: Constants.kBackgroundColor,
-      ),
-      obscureText: false,
-      validator: (str) {
-        if(str!.isEmpty){
-          return "Enter valid phone";
+        label: "Phone...",
+        inputFormatters: [
+          FilteringTextInputFormatter.allow(RegExp('[0-9]')),
+        ],
+        controller: phone,
+        icon: const Icon(
+          Icons.phone,
+          size: 20,
+          color: Constants.kBackgroundColor,
+        ),
+        obscureText: false,
+        validator: (str) {
+          if (str!.isEmpty) {
+            return "Enter valid phone";
+          }
+          return null;
         }
-        return null;
-      }
-      //   if (regExp.hasMatch(str!) == false) {
-      //     return "Enter valid phone";
-      //   }
-      //   return null;
-      // },
-    );
+        //   if (regExp.hasMatch(str!) == false) {
+        //     return "Enter valid phone";
+        //   }
+        //   return null;
+        // },
+        );
   }
 
   inputAddress() {
@@ -206,7 +206,7 @@ class _TodoUpdateState extends State<TodoUpdate> {
       ),
       obscureText: false,
       validator: (str) {
-        if(str!.isEmpty){
+        if (str!.isEmpty) {
           return "Address is required";
         }
         return null;
@@ -310,9 +310,10 @@ class _TodoUpdateState extends State<TodoUpdate> {
   }
 
   buttonUpdate() {
-    return RounedButton(
+    return RoundedButton(
         onPress: () {
-          userCall.editTodo(
+          userCall
+              .editTodo(
                   widget.userProfile,
                   name.text,
                   phone.text,
@@ -324,10 +325,13 @@ class _TodoUpdateState extends State<TodoUpdate> {
                   urlFacebook.text,
                   urlTelegram.text)
               .then((value) {
-                blocUser?.addUser(Boxes.todos);
+            blocUser?.addUser(
+                Boxes.getTodos(FirebaseAuth.instance.currentUser!.uid)
+                    .values
+                    .toList());
             AlertDropdown.success("Update Success");
-            Navigator.push(context, MaterialPageRoute(builder: (context){
-              return BlocProvider<BlocUser>.value(
+            Navigator.push(context, MaterialPageRoute(builder: (context) {
+              return BlocProvider<UserCubit>.value(
                   value: blocUser!,
                   // create: (context) => BlocUser(),
                   child: HomeScreen());
@@ -337,26 +341,4 @@ class _TodoUpdateState extends State<TodoUpdate> {
         text: "Update");
   }
 
-  // Future editTodo(
-  //     UserProfile userProfile,
-  //     String name,
-  //     String phone,
-  //     String address,
-  //     String imgUrl,
-  //     String job,
-  //     String age,
-  //     String description,
-  //     String urlFacebook,
-  //     String urlTelegram) async {
-  //   userProfile.name = name;
-  //   userProfile.phone = phone;
-  //   userProfile.address = address;
-  //   userProfile.imgUrl = imgUrl;
-  //   userProfile.job = job;
-  //   userProfile.age = age;
-  //   userProfile.description = description;
-  //   userProfile.urlFacebook = urlFacebook;
-  //   userProfile.urlTelegram = urlTelegram;
-  //   await userProfile.save();
-  // }
 }
