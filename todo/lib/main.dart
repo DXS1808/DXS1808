@@ -4,12 +4,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_dropdown_alert/dropdown_alert.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:todo/model/user_profile.dart';
 import 'package:todo/presentation/bloc/user_profile_cubit.dart';
 import 'package:todo/presentation/view/home_screen.dart';
 import 'package:todo/presentation/view/splash.dart';
 
-import 'core/router/router.dart';
+import 'config/router/router.dart';
+import 'data/model/user_profile.dart';
+
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

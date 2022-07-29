@@ -2,12 +2,12 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:todo/data_sources/local_storage/boxes.dart';
 import 'package:todo/presentation/bloc/user_profile_cubit.dart';
 import 'package:todo/presentation/view/home_screen.dart';
 import '../../../config/constants/constants.dart';
+import '../../../data/local_storage/boxes.dart';
+import '../../../data/model/user_profile.dart';
 import '../../../domain/repository/user_impl.dart';
-import '../../../model/user_profile.dart';
 import '../../component/allert_dropdown/allert_dopdown.dart';
 import '../../component/input_text_wrap.dart';
 import '../../component/pick_image/pick_image.dart';
@@ -185,12 +185,6 @@ class _TodoUpdateState extends State<TodoUpdate> {
         validator: (str) {
           if (str!.isEmpty) {
             return "Enter valid phone";
-          }else if(str.isNotEmpty) {
-            for(int i =0 ;i <= listUserProfile.length-1;i++){
-              if(str == listUserProfile[i].phone){
-                return "Phone is already exists";
-              }
-            }
           }
           return null;
         }

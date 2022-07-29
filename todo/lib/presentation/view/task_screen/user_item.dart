@@ -1,11 +1,11 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:todo/data_sources/local_storage/boxes.dart';
 import 'package:todo/domain/repository/user_impl.dart';
-import 'package:todo/model/user_profile.dart';
 import 'package:todo/presentation/view/task_screen/user_detail.dart';
 import '../../../config/constants/constants.dart';
+import '../../../data/local_storage/boxes.dart';
+import '../../../data/model/user_profile.dart';
 import '../../bloc/user_profile_cubit.dart';
 import '../../component/dialog.dart';
 import '../../component/text_item.dart';

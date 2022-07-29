@@ -1,8 +1,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
-import '../../../core/router/router.dart';
-import '../../../model/user_profile.dart';
+import '../../../config/router/router.dart';
+import '../../../data/model/user_profile.dart';
 import '../../component/input_text_wrap.dart';
 import '../../../config/constants/constants.dart';
 import '../../component/allert_dropdown/allert_dopdown.dart';

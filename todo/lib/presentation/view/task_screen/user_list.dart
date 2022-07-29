@@ -1,6 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:todo/presentation/view/task_screen/user_item.dart';
-import '../../../model/user_profile.dart';
+
+import '../../../data/model/user_profile.dart';
+
 
 
 class UserScreenList extends StatelessWidget {

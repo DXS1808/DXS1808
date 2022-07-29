@@ -1,6 +1,8 @@
-import 'package:todo/data_sources/local_storage/user_local.dart';
+
 import 'package:todo/domain/repository/user_repository.dart';
-import 'package:todo/model/user_profile.dart';
+
+import '../../data/local_storage/user_local.dart';
+import '../../data/model/user_profile.dart';
 
 class UserImpl implements UserRepository {
   UserLocal userLocal = UserLocal();

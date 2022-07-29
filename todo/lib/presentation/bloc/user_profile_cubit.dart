@@ -1,7 +1,9 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:todo/data_sources/local_storage/boxes.dart';
-import 'package:todo/model/user_profile.dart';
+
+import '../../data/local_storage/boxes.dart';
+import '../../data/model/user_profile.dart';
+
 
 class UserCubit extends Cubit<UsersProfile> {
   UserCubit()

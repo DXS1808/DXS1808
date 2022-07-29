@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:todo/config/constants/constants.dart';
-import 'package:todo/model/user_profile.dart';
 import 'package:todo/presentation/bloc/user_profile_cubit.dart';
 import 'package:todo/presentation/view/task_screen/user_item.dart';
+
+import '../../../data/model/user_profile.dart';
 
 class SearchItem extends SearchDelegate {
   List<UserProfile> users;

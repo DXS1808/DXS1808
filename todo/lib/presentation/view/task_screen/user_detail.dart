@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../../../config/constants/constants.dart';
-import '../../../model/user_profile.dart';
+
+import '../../../data/model/user_profile.dart';
 import '../../component/web_view.dart';
 import '../add_user/user_avatar/avatar.dart';
 

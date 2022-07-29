@@ -1,4 +1,6 @@
-import '../../model/user_profile.dart';
+
+
+import '../../data/model/user_profile.dart';
 
 abstract class UserRepository {
   Future addTodo(
