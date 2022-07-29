@@ -76,21 +76,6 @@ class _HomeScreenState extends State<HomeScreen> {
                                       CrossAxisAlignment.start,
                                       children: [
                                         GestureDetector(
-                                            onTap: () {},
-                                            child: Row(children: const [
-                                              Icon(
-                                                Icons.person_pin,
-                                                size: 30,
-                                              ),
-                                              SizedBox(
-                                                width: 10.0,
-                                              ),
-                                              Text("View Profile"),
-                                            ])),
-                                        const SizedBox(
-                                          height: 10.0,
-                                        ),
-                                        GestureDetector(
                                             onTap: () {
                                               ShowDialog(
                                                 content: 'Do you want sign out ?',

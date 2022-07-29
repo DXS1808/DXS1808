@@ -7,6 +7,7 @@ import 'package:todo/presentation/bloc/user_profile_cubit.dart';
 import '../../../config/constants/constants.dart';
 import '../../../data_sources/local_storage/boxes.dart';
 import '../../../domain/repository/user_impl.dart';
+import '../../../model/user_profile.dart';
 import '../../component/allert_dropdown/allert_dopdown.dart';
 import '../../component/input_text_wrap.dart';
 import '../../component/pick_image/pick_image.dart';
@@ -188,6 +189,7 @@ class _AddUserState extends State<AddUser> {
 
   inputPhone() {
     RegExp regExp = RegExp(r'^(84|0[3|5|7|8|9])+([0-9]{8})\b');
+
     return InputTextWrap(
       label: "Phone...",
       inputFormatters: [
@@ -201,8 +203,15 @@ class _AddUserState extends State<AddUser> {
       ),
       obscureText: false,
       validator: (str) {
+        List<UserProfile> listUserProfile =  Boxes.todos(FirebaseAuth.instance.currentUser!.uid);
         if (regExp.hasMatch(str!) == false) {
           return "Enter valid phone";
+        }else if(str.isNotEmpty) {
+          for(int i =0 ;i <= listUserProfile.length-1;i++){
+            if(str == listUserProfile[i].phone){
+              return "Phone is already exists";
+            }
+          }
         }
         return null;
       },
@@ -356,32 +365,6 @@ class _AddUserState extends State<AddUser> {
           );
         });
   }
-
-
-  // buttonAddUser() {
-  //   BlocUser blocUser = context.watch<BlocUser>();
-  //   return RounedButton(
-  //       onPress: () {
-  //         if (_key.currentState!.validate()) {
-  //           addTodo(
-  //                   name.text,
-  //                   phone.text,
-  //                   address.text,
-  //                   imagePath!,
-  //                   job.text,
-  //                   age.text,
-  //                   description.text,
-  //                   urlFacebook.text,
-  //                   urlTelegram.text)
-  //               .then((value) {
-  //                 blocUser.addUser(Boxes.todos);
-  //             AllertDropdown.success("Add user success");
-  //             clear();
-  //           });
-  //         }
-  //       },
-  //       text: "Add User");
-  // }
 
 
   clear() {

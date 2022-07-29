@@ -169,6 +169,7 @@ class _TodoUpdateState extends State<TodoUpdate> {
 
   inputPhone() {
     RegExp regExp = RegExp(r'^(84|0[3|5|7|8|9])+([0-9]{8})\b');
+    List<UserProfile> listUserProfile =  Boxes.todos(FirebaseAuth.instance.currentUser!.uid);
     return InputTextWrap(
         label: "Phone...",
         inputFormatters: [
@@ -184,6 +185,12 @@ class _TodoUpdateState extends State<TodoUpdate> {
         validator: (str) {
           if (str!.isEmpty) {
             return "Enter valid phone";
+          }else if(str.isNotEmpty) {
+            for(int i =0 ;i <= listUserProfile.length-1;i++){
+              if(str == listUserProfile[i].phone){
+                return "Phone is already exists";
+              }
+            }
           }
           return null;
         }
@@ -312,31 +319,33 @@ class _TodoUpdateState extends State<TodoUpdate> {
   buttonUpdate() {
     return RoundedButton(
         onPress: () {
-          userCall
-              .editTodo(
-                  widget.userProfile,
-                  name.text,
-                  phone.text,
-                  address.text,
-                  widget.userProfile.imgUrl,
-                  job.text,
-                  age.text,
-                  description.text,
-                  urlFacebook.text,
-                  urlTelegram.text)
-              .then((value) {
-            blocUser?.addUser(
-                Boxes.getTodos(FirebaseAuth.instance.currentUser!.uid)
-                    .values
-                    .toList());
-            AlertDropdown.success("Update Success");
-            Navigator.push(context, MaterialPageRoute(builder: (context) {
-              return BlocProvider<UserCubit>.value(
-                  value: blocUser!,
-                  // create: (context) => BlocUser(),
-                  child: HomeScreen());
-            }));
-          });
+          if(_key.currentState!.validate()){
+            userCall
+                .editTodo(
+                widget.userProfile,
+                name.text,
+                phone.text,
+                address.text,
+                widget.userProfile.imgUrl,
+                job.text,
+                age.text,
+                description.text,
+                urlFacebook.text,
+                urlTelegram.text)
+                .then((value) {
+              blocUser?.addUser(
+                  Boxes.getTodos(FirebaseAuth.instance.currentUser!.uid)
+                      .values
+                      .toList());
+              AlertDropdown.success("Update Success");
+              Navigator.push(context, MaterialPageRoute(builder: (context) {
+                return BlocProvider<UserCubit>.value(
+                    value: blocUser!,
+                    // create: (context) => BlocUser(),
+                    child: HomeScreen());
+              }));
+            });
+          }
         },
         text: "Update");
   }

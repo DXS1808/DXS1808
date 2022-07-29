@@ -11,6 +11,7 @@ class Constants {
   static const String kSuccess = "success";
   static const String kError = "error";
 
+
   static const double kMaxHeight = 1250;
   static const double kMaxWidth = 1200;
   static const int kImageQuality = 85;
